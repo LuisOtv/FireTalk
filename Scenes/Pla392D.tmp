@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=3 uid="uid://crfget6py65uj"]
+
+[ext_resource type="Script" path="res://Script/Player.gd" id="1_knl85"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lvfvn"]
+albedo_color = Color(0, 0.552255, 0.556545, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_oq2qx"]
+material = SubResource("StandardMaterial3D_lvfvn")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ympk5"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_b0jox"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="LabelSettings" id="LabelSettings_18jln"]
+font_color = Color(1, 0.333333, 0.286275, 1)
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_swwv1"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("SubViewport/Label:text")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+script = ExtResource("1_knl85")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_oq2qx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_ympk5")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 3, 3)
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_b0jox")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(512, 40)
+
+[node name="Label" type="Label" parent="SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "NAME"
+label_settings = SubResource("LabelSettings_18jln")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_swwv1")
+
+[node name="LineEdit" type="LineEdit" parent="."]
+offset_top = 619.0
+offset_right = 234.0
+offset_bottom = 650.0

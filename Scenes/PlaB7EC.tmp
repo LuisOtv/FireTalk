@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://crfget6py65uj"]
+
+[ext_resource type="Script" path="res://Scenes/Player.gd" id="1_knl85"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lvfvn"]
+albedo_color = Color(0, 0.552255, 0.556545, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_oq2qx"]
+material = SubResource("StandardMaterial3D_lvfvn")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ympk5"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_swwv1"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_knl85")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_oq2qx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_ympk5")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 3, 3)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_swwv1")
