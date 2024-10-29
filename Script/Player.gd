@@ -9,12 +9,14 @@ extends CharacterBody3D
 @export var JUMP_VELOCITY := 4.5
 @export var ROTATION_SPEED := 12
 
-@onready var username_line: LineEdit = $Interface/Username/PanelContainer/MarginContainer/VBoxContainer/Username
+@onready var username_line: LineEdit = $Interface/Username/Panel/PanelContainer/MarginContainer/VBoxContainer/Username
 @onready var username: CanvasLayer = $Interface/Username
 @onready var Chat: CanvasLayer = get_tree().get_nodes_in_group("ChatController")[0]
+@onready var mining_minigame: Node2D = $MiningMinigame
 
 var setted := false
 var usrnm : String
+var mining = false
 var mine = false
 
 var distance_threshold = 1.5  # Distância máxima
@@ -25,6 +27,7 @@ func _enter_tree() -> void:
 
 func _ready():
 	camera.current = is_multiplayer_authority()
+	mining_minigame.hide()
 	
 	if is_multiplayer_authority():
 		# Exibe a interface de username apenas para o jogador local
@@ -39,6 +42,7 @@ func _physics_process(delta: float) -> void:
 
 	if not is_multiplayer_authority(): return
 	if not setted: return
+	if mining: return
 	if Chat.get_node("Message").has_focus(): return
 
 	# Add gravity
@@ -48,9 +52,15 @@ func _physics_process(delta: float) -> void:
 	# Handle jump
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
+	
+	if Input.is_action_just_pressed("ui_e") and is_on_floor():
 		if mine:
-			nearby_ores[0].rpc("mine")
-			
+			var ore = nearby_ores[0]
+			$MiningMinigame.ore = ore
+			$MiningMinigame.timermexernissodps = 10
+			mining = true
+			mining_minigame.show()
+
 	# Get the input direction and handle the movement/deceleration
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 		
@@ -96,29 +106,16 @@ func _physics_process(delta: float) -> void:
 func check_nearby_objects():
 	
 	nearby_ores.clear()  # Limpa o array antes de verificar novamente
-
 	# Obtém todos os nós do grupo "enemies"
-	
 	var ores = get_tree().get_nodes_in_group("Ore")
-
 	# Verifica a distância de cada inimigo em relação ao jogador
-	
 	for ore in ores:
-		
 		if ore.position.distance_to(self.position) <= distance_threshold:
-			
 			nearby_ores.append(ore)
-
 	# Se existirem objetos próximos, faça algo
-	
 	if nearby_ores.size() > 0:
-		
-		print("Existem objetos próximos:", nearby_ores)
 		mine = true
-		
 	else:
-		
-		print("Nenhum objeto encontrado dentro da distância.")
 		mine = false
 
 func _on_ok_pressed() -> void:

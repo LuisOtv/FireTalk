@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://bn6xxfv0nhett"]
+
+[ext_resource type="Texture2D" uid="uid://dafffscv6y0g7" path="res://Textures/Pickaxe.png" id="1_uxykr"]
+[ext_resource type="Script" path="res://Script/Pickaxe.gd" id="2_0k1pg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mse8e"]
+
+[node name="MiningMinigame" type="Node2D"]
+script = ExtResource("2_0k1pg")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 380.0
+offset_top = 598.0
+offset_right = 769.0
+offset_bottom = 638.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_mse8e")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Left" type="Marker2D" parent="PanelContainer"]
+position = Vector2(0, 19)
+
+[node name="Right" type="Marker2D" parent="PanelContainer"]
+position = Vector2(389, 19)
+
+[node name="Middle" type="Marker2D" parent="PanelContainer"]
+position = Vector2(192, 19)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(570, 616)
+scale = Vector2(0.219424, 0.210425)
+texture = ExtResource("1_uxykr")

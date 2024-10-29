@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://Script/ChatHandler.gd" id="3_kk6rq"]
 [ext_resource type="Texture2D" uid="uid://cqmv8y1lg3fc2" path="res://Textures/DeadGrass.jpg" id="4_yheki"]
 [ext_resource type="Texture2D" uid="uid://dyp786p3f7d8n" path="res://Textures/Gravel.jpg" id="5_2ivvi"]
-[ext_resource type="Texture2D" uid="uid://c5r6cue4xyhgv" path="res://Textures/fire.png" id="5_exp8c"]
+[ext_resource type="Texture2D" uid="uid://c5r6cue4xyhgv" path="res://Textures/Fire.png" id="5_exp8c"]
 [ext_resource type="Texture2D" uid="uid://p888tmv8usm6" path="res://Textures/Water.png" id="6_0buf4"]
 [ext_resource type="Script" path="res://Script/DiscordManager.gd" id="7_n10e0"]
 [ext_resource type="PackedScene" uid="uid://hoyexacbib3v" path="res://Scenes/Ore.tscn" id="10_caipt"]
@@ -217,6 +217,7 @@ placeholder_text = "Message..."
 [node name="Messages" type="TextEdit" parent="Chat"]
 offset_right = 259.0
 offset_bottom = 174.0
+mouse_filter = 2
 editable = false
 wrap_mode = 1
 
@@ -236,6 +237,7 @@ spawn_path = NodePath("..")
 script = ExtResource("7_n10e0")
 
 [node name="Ore" parent="." instance=ExtResource("10_caipt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -8)
 
 [connection signal="focus_entered" from="Menu/Panel/PanelContainer/MarginContainer/VBoxContainer/host" to="." method="_on_host_focus_entered"]
 [connection signal="pressed" from="Menu/Panel/PanelContainer/MarginContainer/VBoxContainer/host" to="." method="_on_host_pressed"]

@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=4 uid="uid://crfget6py65uj"]
+[gd_scene load_steps=19 format=4 uid="uid://crfget6py65uj"]
 
 [ext_resource type="Script" path="res://Script/Player.gd" id="1_knl85"]
 [ext_resource type="FontFile" uid="uid://cmqgoydw4vvwu" path="res://Fonts/VarelaRound-Regular.ttf" id="2_8q8jm"]
 [ext_resource type="Script" path="res://Script/Pivot.gd" id="2_yl75c"]
+[ext_resource type="PackedScene" uid="uid://bn6xxfv0nhett" path="res://Scenes/MiningMinigame.tscn" id="4_tgjbk"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_btu2e"]
 
@@ -184,10 +185,10 @@ _data = {
 "Walking": SubResource("Animation_h3p1w")
 }
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ch70m"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q8c7w"]
 bg_color = Color(0.835294, 0.666667, 0.45098, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u2vim"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nc3ug"]
 bg_color = Color(1, 0.933333, 0.835294, 1)
 border_width_bottom = 5
 border_color = Color(0.43134, 0.43134, 0.43134, 1)
@@ -385,47 +386,46 @@ offset_left = -10.0
 offset_top = -7.0
 offset_right = 1165.0
 offset_bottom = 657.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_ch70m")
+theme_override_styles/panel = SubResource("StyleBoxFlat_q8c7w")
 
-[node name="PanelContainer" type="PanelContainer" parent="Interface/Username"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="PanelContainer" type="PanelContainer" parent="Interface/Username/Panel"]
+layout_mode = 0
 offset_left = 413.0
 offset_top = 261.5
-offset_right = -413.0
-offset_bottom = -261.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_u2vim")
+offset_right = 739.0
+offset_bottom = 386.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_nc3ug")
 
-[node name="MarginContainer" type="MarginContainer" parent="Interface/Username/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Interface/Username/Panel/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Interface/Username/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Interface/Username/Panel/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Type" type="Label" parent="Interface/Username/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Type" type="Label" parent="Interface/Username/Panel/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Type Your Username"
 label_settings = SubResource("LabelSettings_wk13d")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Username" type="LineEdit" parent="Interface/Username/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Username" type="LineEdit" parent="Interface/Username/Panel/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 placeholder_text = "Username"
 alignment = 1
 
-[node name="Ok" type="Button" parent="Interface/Username/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Ok" type="Button" parent="Interface/Username/Panel/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "➤"
 
 [node name="Marker3D" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.284617, 0)
 
-[connection signal="pressed" from="Interface/Username/PanelContainer/MarginContainer/VBoxContainer/Ok" to="." method="_on_ok_pressed"]
+[node name="MiningMinigame" parent="." node_paths=PackedStringArray("player") instance=ExtResource("4_tgjbk")]
+player = NodePath("..")
+
+[connection signal="pressed" from="Interface/Username/Panel/PanelContainer/MarginContainer/VBoxContainer/Ok" to="." method="_on_ok_pressed"]
