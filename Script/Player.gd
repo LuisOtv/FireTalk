@@ -13,11 +13,15 @@ extends CharacterBody3D
 @onready var username: CanvasLayer = $Interface/Username
 @onready var Chat: CanvasLayer = get_tree().get_nodes_in_group("ChatController")[0]
 @onready var mining_minigame: Node2D = $MiningMinigame
+@onready var money_counter: Label = $Interface/HUD/money_counter
+@onready var respawn: Marker3D = $Respawn
 
-var setted := false
 var usrnm : String
+var setted := false
 var mining = false
 var mine = false
+
+var money = 0
 
 var distance_threshold = 1.5  # Distância máxima
 var nearby_ores = []  # Para armazenar objetos que estão dentro da distância
@@ -38,12 +42,14 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 
-	var Ores = get_tree().get_nodes_in_group("Ore")
-
 	if not is_multiplayer_authority(): return
 	if not setted: return
 	if mining: return
 	if Chat.get_node("Message").has_focus(): return
+	
+	var Ores = get_tree().get_nodes_in_group("Ore")
+	
+	money_counter.text = str(PlayerInfo.money)
 
 	# Add gravity
 	if not is_on_floor():

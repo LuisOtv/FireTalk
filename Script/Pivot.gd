@@ -10,6 +10,7 @@ var is_rotating := false  # Para verificar se estamos rotacionando
 
 func _ready():
 	# Inicialmente, o cursor do mouse será visível
+
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _input(event):
@@ -29,6 +30,9 @@ func _input(event):
 			Spring.spring_length -= 0.2
 
 func _process(delta: float) -> void:
+	
+	Spring.spring_length = clamp(Spring.spring_length, 3, 10)
+	
 	if is_rotating:
 		var mouse_delta = Input.get_last_mouse_velocity()  # Pega a diferença de movimento do mouse
 

@@ -32,6 +32,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_e"):
 		if timermexernissodps <= 0:
 			player.mining = false
+			PlayerInfo.money += 1
 			ore.rpc("mine")
 			hide()
 		

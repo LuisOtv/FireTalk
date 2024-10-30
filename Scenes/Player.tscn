@@ -201,7 +201,7 @@ corner_radius_bottom_left = 10
 font = ExtResource("2_8q8jm")
 font_color = Color(0, 0, 0, 1)
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera", "anim_player", "body")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera", "anim_player", "body") groups=["Player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 2
 script = ExtResource("1_knl85")
@@ -379,6 +379,13 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
+[node name="HUD" type="CanvasLayer" parent="Interface"]
+
+[node name="money_counter" type="Label" parent="Interface/HUD"]
+offset_top = 617.0
+offset_right = 41.0
+offset_bottom = 640.0
+
 [node name="Username" type="CanvasLayer" parent="Interface"]
 
 [node name="Panel" type="Panel" parent="Interface/Username"]
@@ -427,5 +434,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.284617, 0)
 
 [node name="MiningMinigame" parent="." node_paths=PackedStringArray("player") instance=ExtResource("4_tgjbk")]
 player = NodePath("..")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="Collision" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.19317, 0)
+shape = SubResource("CapsuleShape3D_ympk5")
 
 [connection signal="pressed" from="Interface/Username/Panel/PanelContainer/MarginContainer/VBoxContainer/Ok" to="." method="_on_ok_pressed"]
