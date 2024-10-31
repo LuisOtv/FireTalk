@@ -2,6 +2,7 @@ extends Node3D
 
 @onready var menu: CanvasLayer = $Menu
 @onready var chat: CanvasLayer = $Chat
+@onready var line_edit: LineEdit = $Menu/Panel/PanelContainer/MarginContainer/VBoxContainer/LineEdit
 
 @export var player_scene : PackedScene
 
@@ -16,7 +17,7 @@ func _on_host_pressed() -> void:
 
 func _on_join_pressed() -> void:
 	menu.hide()
-	peer.create_client("localhost", 1027)
+	peer.create_client(line_edit.text, 1027)
 	multiplayer.multiplayer_peer = peer
 
 func joined(id = multiplayer.get_unique_id()):

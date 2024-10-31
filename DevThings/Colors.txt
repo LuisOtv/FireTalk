@@ -1,0 +1,2 @@
+wood: #963E05
+inside_wood: #D87A55

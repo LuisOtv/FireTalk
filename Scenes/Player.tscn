@@ -1,9 +1,10 @@
-[gd_scene load_steps=19 format=4 uid="uid://crfget6py65uj"]
+[gd_scene load_steps=24 format=4 uid="uid://crfget6py65uj"]
 
 [ext_resource type="Script" path="res://Script/Player.gd" id="1_knl85"]
 [ext_resource type="FontFile" uid="uid://cmqgoydw4vvwu" path="res://Fonts/VarelaRound-Regular.ttf" id="2_8q8jm"]
 [ext_resource type="Script" path="res://Script/Pivot.gd" id="2_yl75c"]
 [ext_resource type="PackedScene" uid="uid://bn6xxfv0nhett" path="res://Scenes/MiningMinigame.tscn" id="4_tgjbk"]
+[ext_resource type="Texture2D" uid="uid://rmkjisd4ykgu" path="res://Textures/Face.png" id="5_0u86q"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_btu2e"]
 
@@ -100,6 +101,9 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath("AnimationPlayer:current_animation")
 properties/3/spawn = true
 properties/3/replication_mode = 1
+properties/4/path = NodePath("GPUParticles3D:emitting")
+properties/4/spawn = true
+properties/4/replication_mode = 1
 
 [sub_resource type="Animation" id="Animation_hxhb0"]
 resource_name = "Idle"
@@ -200,6 +204,24 @@ corner_radius_bottom_left = 10
 [sub_resource type="LabelSettings" id="LabelSettings_wk13d"]
 font = ExtResource("2_8q8jm")
 font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Curve" id="Curve_isu1j"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.967213, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_g8grx"]
+curve = SubResource("Curve_isu1j")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_r1i4u"]
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 0.2
+initial_velocity_max = 1.0
+gravity = Vector3(0, -1, 0)
+scale_curve = SubResource("CurveTexture_g8grx")
+
+[sub_resource type="SphereMesh" id="SphereMesh_nhvdx"]
+radius = 0.1
+height = 0.2
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera", "anim_player", "body") groups=["Player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -338,6 +360,10 @@ bones/13/scale = Vector3(1, 1, 1)
 mesh = SubResource("ArrayMesh_km1mk")
 skin = SubResource("Skin_eu6j7")
 
+[node name="Sprite3D" type="Sprite3D" parent="Armature/Skeleton3D/Body"]
+transform = Transform3D(-0.35, 0, 3.0598e-08, 0, 0.35, 0, -3.0598e-08, 0, -0.35, -7.05767e-08, 2.14348, 0.807303)
+texture = ExtResource("5_0u86q")
+
 [node name="Nametag" type="Sprite3D" parent="."]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.709445, 0)
 billboard = 1
@@ -440,5 +466,11 @@ player = NodePath("..")
 [node name="Collision" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.19317, 0)
 shape = SubResource("CapsuleShape3D_ympk5")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.959201, 0)
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_r1i4u")
+draw_pass_1 = SubResource("SphereMesh_nhvdx")
 
 [connection signal="pressed" from="Interface/Username/Panel/PanelContainer/MarginContainer/VBoxContainer/Ok" to="." method="_on_ok_pressed"]

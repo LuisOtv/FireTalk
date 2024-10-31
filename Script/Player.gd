@@ -14,7 +14,7 @@ extends CharacterBody3D
 @onready var Chat: CanvasLayer = get_tree().get_nodes_in_group("ChatController")[0]
 @onready var mining_minigame: Node2D = $MiningMinigame
 @onready var money_counter: Label = $Interface/HUD/money_counter
-@onready var respawn: Marker3D = $Respawn
+@onready var walking_particles: GPUParticles3D = $GPUParticles3D
 
 var usrnm : String
 var setted := false
@@ -83,6 +83,9 @@ func _physics_process(delta: float) -> void:
 	var direction := (forward_dir * input_dir.y + right_dir * input_dir.x).normalized()
 		
 	if direction:
+		if is_on_floor():
+			walking_particles.emitting = true
+		
 		anim_player.play('Walking')
 				
 		velocity.x = direction.x * SPEED
@@ -101,6 +104,7 @@ func _physics_process(delta: float) -> void:
 		# Smoothly rotate the body towards the target
 		body.rotation.y = lerp_angle(current_rotation, -target_rotation, ROTATION_SPEED * delta)
 	else:
+		walking_particles.emitting = false
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 		anim_player.play('Idle')
