@@ -10,11 +10,13 @@ extends CharacterBody3D
 @export var ROTATION_SPEED := 12
 
 @onready var username_line: LineEdit = $Interface/Username/Panel/PanelContainer/MarginContainer/VBoxContainer/Username
-@onready var username: CanvasLayer = $Interface/Username
-@onready var Chat: CanvasLayer = get_tree().get_nodes_in_group("ChatController")[0]
 @onready var mining_minigame: Node2D = $MiningMinigame
 @onready var money_counter: Label = $Interface/HUD/money_counter
 @onready var walking_particles: GPUParticles3D = $GPUParticles3D
+@onready var interact_ui: CanvasLayer = $Interface/InteractUI
+@onready var inventory_ui: CanvasLayer = $Interface/InventoryUI
+@onready var username: CanvasLayer = $Interface/Username
+@onready var chat: CanvasLayer = get_tree().get_nodes_in_group("ChatController")[0]
 
 var usrnm : String
 var setted := false
@@ -30,6 +32,7 @@ func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
 
 func _ready():
+	InventoryController.set_player(self)
 	camera.current = is_multiplayer_authority()
 	mining_minigame.hide()
 	
@@ -45,7 +48,7 @@ func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority(): return
 	if not setted: return
 	if mining: return
-	if Chat.get_node("Message").has_focus(): return
+	if chat.get_node("Message").has_focus(): return
 	
 	var Ores = get_tree().get_nodes_in_group("Ore")
 	
@@ -66,6 +69,10 @@ func _physics_process(delta: float) -> void:
 			$MiningMinigame.timermexernissodps = 10
 			mining = true
 			mining_minigame.show()
+	
+	if Input.is_action_just_pressed("ui_tab"):
+		inventory_ui.visible = !inventory_ui.visible
+		chat.visible = !chat.visible
 
 	# Get the input direction and handle the movement/deceleration
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
@@ -133,6 +140,6 @@ func _on_ok_pressed() -> void:
 		setted = true
 		usrnm = username_line.text
 		PlayerInfo.usrnm = usrnm
-		Chat.show()
+		chat.show()
 		$Interface/Username.hide()
 		$Nametag/SubViewport/Label.text = usrnm

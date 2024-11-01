@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://7mbtv7q03dlb"]
+
+[ext_resource type="Script" path="res://Script/InventoryItem.gd" id="1_v0q1a"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4hw3y"]
+radius = 0.959027
+
+[sub_resource type="BoxMesh" id="BoxMesh_2qug1"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3lwwb"]
+
+[node name="InventoryItem" type="RigidBody3D" groups=["Item"]]
+script = ExtResource("1_v0q1a")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
+shape = SubResource("SphereShape3D_4hw3y")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = SubResource("BoxMesh_2qug1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_3lwwb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
+[connection signal="area_exited" from="Area3D" to="." method="_on_area_3d_area_exited"]
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

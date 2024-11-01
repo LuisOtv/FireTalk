@@ -1,0 +1,130 @@
+[gd_scene load_steps=7 format=3 uid="uid://li6wgfyrfoku"]
+
+[ext_resource type="Script" path="res://Script/InventorySlot.gd" id="1_dokyu"]
+[ext_resource type="Texture2D" uid="uid://muqd0lpvrieh" path="res://Textures/Cube.png" id="1_sqd6r"]
+[ext_resource type="FontFile" uid="uid://cmqgoydw4vvwu" path="res://Fonts/VarelaRound-Regular.ttf" id="2_w0jec"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_mbn7r"]
+font = ExtResource("2_w0jec")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_at2a0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wtdcr"]
+
+[node name="InventorySlot" type="Control"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -992.0
+offset_bottom = -488.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dokyu")
+
+[node name="OuterBorder" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OuterBorder" type="Panel" parent="OuterBorder"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = -65.0
+offset_right = 65.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemImage" type="Sprite2D" parent="OuterBorder/OuterBorder"]
+position = Vector2(75, 75)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_sqd6r")
+
+[node name="ItemQuantity" type="Label" parent="OuterBorder/OuterBorder"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 41.0
+text = "1"
+label_settings = SubResource("LabelSettings_mbn7r")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DetailsPanel" type="Panel" parent="."]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_top = 160.0
+offset_right = 322.0
+offset_bottom = 240.0
+
+[node name="VSplitContainer" type="VBoxContainer" parent="DetailsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ItemName" type="Label" parent="DetailsPanel/VSplitContainer"]
+layout_mode = 2
+text = "WHITE DEVELOPER CUBE"
+
+[node name="ItemType" type="Label" parent="DetailsPanel/VSplitContainer"]
+layout_mode = 2
+text = "DEV ITEM"
+
+[node name="ItemEffect" type="Label" parent="DetailsPanel/VSplitContainer"]
+layout_mode = 2
+text = "WITHOUT THIS THE GAME WILL CRASH"
+
+[node name="UsePanel" type="Panel" parent="."]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_top = 160.0
+offset_right = 322.0
+offset_bottom = 240.0
+
+[node name="VSplitContainer" type="VBoxContainer" parent="UsePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Button" type="Button" parent="UsePanel/VSplitContainer"]
+layout_mode = 2
+text = "USE"
+
+[node name="Button2" type="Button" parent="UsePanel/VSplitContainer"]
+layout_mode = 2
+text = "DROP"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/hover = SubResource("StyleBoxEmpty_at2a0")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_wtdcr")
+
+[connection signal="mouse_entered" from="Button" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Button" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -1,10 +1,11 @@
-[gd_scene load_steps=24 format=4 uid="uid://crfget6py65uj"]
+[gd_scene load_steps=26 format=4 uid="uid://crfget6py65uj"]
 
 [ext_resource type="Script" path="res://Script/Player.gd" id="1_knl85"]
 [ext_resource type="FontFile" uid="uid://cmqgoydw4vvwu" path="res://Fonts/VarelaRound-Regular.ttf" id="2_8q8jm"]
 [ext_resource type="Script" path="res://Script/Pivot.gd" id="2_yl75c"]
 [ext_resource type="PackedScene" uid="uid://bn6xxfv0nhett" path="res://Scenes/MiningMinigame.tscn" id="4_tgjbk"]
 [ext_resource type="Texture2D" uid="uid://rmkjisd4ykgu" path="res://Textures/Face.png" id="5_0u86q"]
+[ext_resource type="PackedScene" uid="uid://cdrvt7ddobsyt" path="res://Inventory/InventoryUI.tscn" id="5_1ny8p"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_btu2e"]
 
@@ -87,6 +88,43 @@ shadow_size = 0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ympk5"]
 height = 1.61998
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q8c7w"]
+bg_color = Color(0.835294, 0.666667, 0.45098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nc3ug"]
+bg_color = Color(1, 0.933333, 0.835294, 1)
+border_width_bottom = 5
+border_color = Color(0.43134, 0.43134, 0.43134, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="LabelSettings" id="LabelSettings_wk13d"]
+font = ExtResource("2_8q8jm")
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_a70g4"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Curve" id="Curve_isu1j"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.967213, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_g8grx"]
+curve = SubResource("Curve_isu1j")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_r1i4u"]
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 0.2
+initial_velocity_max = 1.0
+gravity = Vector3(0, -1, 0)
+scale_curve = SubResource("CurveTexture_g8grx")
+
+[sub_resource type="SphereMesh" id="SphereMesh_nhvdx"]
+radius = 0.1
+height = 0.2
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_swwv1"]
 properties/0/path = NodePath(".:position")
@@ -188,40 +226,6 @@ _data = {
 "Idle": SubResource("Animation_hxhb0"),
 "Walking": SubResource("Animation_h3p1w")
 }
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q8c7w"]
-bg_color = Color(0.835294, 0.666667, 0.45098, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nc3ug"]
-bg_color = Color(1, 0.933333, 0.835294, 1)
-border_width_bottom = 5
-border_color = Color(0.43134, 0.43134, 0.43134, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="LabelSettings" id="LabelSettings_wk13d"]
-font = ExtResource("2_8q8jm")
-font_color = Color(0, 0, 0, 1)
-
-[sub_resource type="Curve" id="Curve_isu1j"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.967213, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_g8grx"]
-curve = SubResource("Curve_isu1j")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_r1i4u"]
-direction = Vector3(0, 1, 0)
-initial_velocity_min = 0.2
-initial_velocity_max = 1.0
-gravity = Vector3(0, -1, 0)
-scale_curve = SubResource("CurveTexture_g8grx")
-
-[sub_resource type="SphereMesh" id="SphereMesh_nhvdx"]
-radius = 0.1
-height = 0.2
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera", "anim_player", "body") groups=["Player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -388,14 +392,6 @@ vertical_alignment = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.19317, 0)
 shape = SubResource("CapsuleShape3D_ympk5")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_swwv1")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_jhllr")
-}
-
 [node name="Interface" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -455,11 +451,39 @@ alignment = 1
 layout_mode = 2
 text = "➤"
 
+[node name="InteractUI" type="CanvasLayer" parent="Interface"]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Interface/InteractUI"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="Interface/InteractUI/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "E"
+label_settings = SubResource("LabelSettings_a70g4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InventoryUI" type="CanvasLayer" parent="Interface"]
+visible = false
+
+[node name="InventoryUi" parent="Interface/InventoryUI" instance=ExtResource("5_1ny8p")]
+
 [node name="Marker3D" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.284617, 0)
-
-[node name="MiningMinigame" parent="." node_paths=PackedStringArray("player") instance=ExtResource("4_tgjbk")]
-player = NodePath("..")
 
 [node name="Area3D" type="Area3D" parent="."]
 
@@ -472,5 +496,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.959201, 0)
 emitting = false
 process_material = SubResource("ParticleProcessMaterial_r1i4u")
 draw_pass_1 = SubResource("SphereMesh_nhvdx")
+
+[node name="MiningMinigame" parent="." node_paths=PackedStringArray("player") instance=ExtResource("4_tgjbk")]
+player = NodePath("..")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_swwv1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_jhllr")
+}
 
 [connection signal="pressed" from="Interface/Username/Panel/PanelContainer/MarginContainer/VBoxContainer/Ok" to="." method="_on_ok_pressed"]
