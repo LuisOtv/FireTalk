@@ -1,9 +1,8 @@
-[gd_scene load_steps=26 format=4 uid="uid://crfget6py65uj"]
+[gd_scene load_steps=22 format=4 uid="uid://crfget6py65uj"]
 
 [ext_resource type="Script" path="res://Script/Player.gd" id="1_knl85"]
 [ext_resource type="FontFile" uid="uid://cmqgoydw4vvwu" path="res://Fonts/VarelaRound-Regular.ttf" id="2_8q8jm"]
 [ext_resource type="Script" path="res://Script/Pivot.gd" id="2_yl75c"]
-[ext_resource type="PackedScene" uid="uid://bn6xxfv0nhett" path="res://Scenes/MiningMinigame.tscn" id="4_tgjbk"]
 [ext_resource type="Texture2D" uid="uid://rmkjisd4ykgu" path="res://Textures/Face.png" id="5_0u86q"]
 [ext_resource type="PackedScene" uid="uid://cdrvt7ddobsyt" path="res://Inventory/InventoryUI.tscn" id="5_1ny8p"]
 
@@ -88,22 +87,6 @@ shadow_size = 0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ympk5"]
 height = 1.61998
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q8c7w"]
-bg_color = Color(0.835294, 0.666667, 0.45098, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nc3ug"]
-bg_color = Color(1, 0.933333, 0.835294, 1)
-border_width_bottom = 5
-border_color = Color(0.43134, 0.43134, 0.43134, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="LabelSettings" id="LabelSettings_wk13d"]
-font = ExtResource("2_8q8jm")
-font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_a70g4"]
 font_color = Color(0, 0, 0, 1)
@@ -238,12 +221,12 @@ GRAVITY_MULTIPLIER = 10.0
 SPEED = 3.0
 JUMP_VELOCITY = 10.0
 
-[node name="PivotHorizontal" type="Node3D" parent="." node_paths=PackedStringArray("Camera_Look", "Camera", "Spring")]
+[node name="PivotHorizontal" type="Node3D" parent="." node_paths=PackedStringArray("cameraLook", "camera", "spring")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 script = ExtResource("2_yl75c")
-Camera_Look = NodePath("../Marker3D")
-Camera = NodePath("PivotVertical/SpringArm3D/Camera3D")
-Spring = NodePath("PivotVertical/SpringArm3D")
+cameraLook = NodePath("../Marker3D")
+camera = NodePath("PivotVertical/SpringArm3D/Camera3D")
+spring = NodePath("PivotVertical/SpringArm3D")
 
 [node name="PivotVertical" type="Node3D" parent="PivotHorizontal"]
 
@@ -401,60 +384,19 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="HUD" type="CanvasLayer" parent="Interface"]
-
-[node name="money_counter" type="Label" parent="Interface/HUD"]
-offset_top = 617.0
-offset_right = 41.0
-offset_bottom = 640.0
-
-[node name="Username" type="CanvasLayer" parent="Interface"]
-
-[node name="Panel" type="Panel" parent="Interface/Username"]
-offset_left = -10.0
-offset_top = -7.0
-offset_right = 1165.0
-offset_bottom = 657.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_q8c7w")
-
-[node name="PanelContainer" type="PanelContainer" parent="Interface/Username/Panel"]
-layout_mode = 0
-offset_left = 413.0
-offset_top = 261.5
-offset_right = 739.0
-offset_bottom = 386.5
-theme_override_styles/panel = SubResource("StyleBoxFlat_nc3ug")
-
-[node name="MarginContainer" type="MarginContainer" parent="Interface/Username/Panel/PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_top = 15
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 15
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Interface/Username/Panel/PanelContainer/MarginContainer"]
-layout_mode = 2
-
-[node name="Type" type="Label" parent="Interface/Username/Panel/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Type Your Username"
-label_settings = SubResource("LabelSettings_wk13d")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Username" type="LineEdit" parent="Interface/Username/Panel/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-placeholder_text = "Username"
-alignment = 1
-
-[node name="Ok" type="Button" parent="Interface/Username/Panel/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "➤"
-
 [node name="InteractUI" type="CanvasLayer" parent="Interface"]
 visible = false
 
-[node name="ColorRect" type="ColorRect" parent="Interface/InteractUI"]
+[node name="InteractUI" type="Control" parent="Interface/InteractUI"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1112.0
+offset_top = 608.0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="ColorRect" type="ColorRect" parent="Interface/InteractUI/InteractUI"]
+layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -465,7 +407,7 @@ offset_top = -40.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="Label" type="Label" parent="Interface/InteractUI/ColorRect"]
+[node name="Label" type="Label" parent="Interface/InteractUI/InteractUI/ColorRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -497,9 +439,6 @@ emitting = false
 process_material = SubResource("ParticleProcessMaterial_r1i4u")
 draw_pass_1 = SubResource("SphereMesh_nhvdx")
 
-[node name="MiningMinigame" parent="." node_paths=PackedStringArray("player") instance=ExtResource("4_tgjbk")]
-player = NodePath("..")
-
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_swwv1")
 
@@ -508,4 +447,5 @@ libraries = {
 "": SubResource("AnimationLibrary_jhllr")
 }
 
-[connection signal="pressed" from="Interface/Username/Panel/PanelContainer/MarginContainer/VBoxContainer/Ok" to="." method="_on_ok_pressed"]
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
+[connection signal="area_exited" from="Area3D" to="." method="_on_area_3d_area_exited"]

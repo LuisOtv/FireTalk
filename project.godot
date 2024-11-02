@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 PlayerInfo="*res://Script/Global/PlayerInfo.gd"
 DiscordRPCLoader="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
 InventoryController="*res://Script/Global/InventoryController.gd"
+SteamController="*res://Script/Global/SteamController.gd"
 
 [display]
 
@@ -27,12 +28,13 @@ window/size/resizable=false
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/csg_converter/plugin.cfg")
+enabled=PackedStringArray("res://addons/csg_converter/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg")
 
 [global_group]
 
 ChatController=""
 Ore=""
+Interactable="Things you can interact"
 
 [input]
 

@@ -9,24 +9,17 @@ extends CharacterBody3D
 @export var JUMP_VELOCITY := 4.5
 @export var ROTATION_SPEED := 12
 
-@onready var username_line: LineEdit = $Interface/Username/Panel/PanelContainer/MarginContainer/VBoxContainer/Username
-@onready var mining_minigame: Node2D = $MiningMinigame
-@onready var money_counter: Label = $Interface/HUD/money_counter
 @onready var walking_particles: GPUParticles3D = $GPUParticles3D
 @onready var interact_ui: CanvasLayer = $Interface/InteractUI
 @onready var inventory_ui: CanvasLayer = $Interface/InventoryUI
-@onready var username: CanvasLayer = $Interface/Username
 @onready var chat: CanvasLayer = get_tree().get_nodes_in_group("ChatController")[0]
+@onready var nametag: Label = $Nametag/SubViewport/Label
 
+var object
 var usrnm : String
 var setted := false
-var mining = false
-var mine = false
 
 var money = 0
-
-var distance_threshold = 1.5  # Distância máxima
-var nearby_ores = []  # Para armazenar objetos que estão dentro da distância
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
@@ -34,25 +27,18 @@ func _enter_tree() -> void:
 func _ready():
 	InventoryController.set_player(self)
 	camera.current = is_multiplayer_authority()
-	mining_minigame.hide()
 	
-	if is_multiplayer_authority():
-		# Exibe a interface de username apenas para o jogador local
-		username.show()
-	else:
-		# Oculta a interface de username para outros jogadores
-		username.hide()
+	usrnm = PlayerInfo.usrnm
+	nametag.text = usrnm
+	chat.show()
 
 func _physics_process(delta: float) -> void:
-
+	
 	if not is_multiplayer_authority(): return
-	if not setted: return
-	if mining: return
-	if chat.get_node("Message").has_focus(): return
 	
+	can_walk()
+
 	var Ores = get_tree().get_nodes_in_group("Ore")
-	
-	money_counter.text = str(PlayerInfo.money)
 
 	# Add gravity
 	if not is_on_floor():
@@ -63,12 +49,8 @@ func _physics_process(delta: float) -> void:
 		velocity.y = JUMP_VELOCITY
 	
 	if Input.is_action_just_pressed("ui_e") and is_on_floor():
-		if mine:
-			var ore = nearby_ores[0]
-			$MiningMinigame.ore = ore
-			$MiningMinigame.timermexernissodps = 10
-			mining = true
-			mining_minigame.show()
+		if object != null:
+			object.interact()
 	
 	if Input.is_action_just_pressed("ui_tab"):
 		inventory_ui.visible = !inventory_ui.visible
@@ -117,29 +99,17 @@ func _physics_process(delta: float) -> void:
 		anim_player.play('Idle')
 	
 	move_and_slide()
-	check_nearby_objects()  # Chame a função a cada frame
 
-# Função para checar objetos próximos
-func check_nearby_objects():
+func _on_area_3d_area_entered(area: Area3D) -> void:
+	object = area.get_parent()
+	if object.is_in_group("Interactable"):
+		if is_multiplayer_authority():
+			interact_ui.show()
+
+func _on_area_3d_area_exited(area: Area3D) -> void:
+	object = null
+	if is_multiplayer_authority():
+		interact_ui.hide()
 	
-	nearby_ores.clear()  # Limpa o array antes de verificar novamente
-	# Obtém todos os nós do grupo "enemies"
-	var ores = get_tree().get_nodes_in_group("Ore")
-	# Verifica a distância de cada inimigo em relação ao jogador
-	for ore in ores:
-		if ore.position.distance_to(self.position) <= distance_threshold:
-			nearby_ores.append(ore)
-	# Se existirem objetos próximos, faça algo
-	if nearby_ores.size() > 0:
-		mine = true
-	else:
-		mine = false
-
-func _on_ok_pressed() -> void:
-	if username_line.text != "":
-		setted = true
-		usrnm = username_line.text
-		PlayerInfo.usrnm = usrnm
-		chat.show()
-		$Interface/Username.hide()
-		$Nametag/SubViewport/Label.text = usrnm
+func can_walk():
+	if chat.get_node("Message").has_focus(): return

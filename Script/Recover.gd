@@ -16,7 +16,4 @@ func _on_area_entered(area: Area3D) -> void:
 	var player = area.get_parent()
 
 	if player.is_in_group("Player"):
-		print("Jogador detectado, redefinindo posição.")
 		player.global_transform.origin = respawn_point.global_transform.origin
-	else:
-		print("O nó não pertence ao grupo 'Player'")
