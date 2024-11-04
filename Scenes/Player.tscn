@@ -1,8 +1,8 @@
-[gd_scene load_steps=22 format=4 uid="uid://crfget6py65uj"]
+[gd_scene load_steps=27 format=4 uid="uid://crfget6py65uj"]
 
 [ext_resource type="Script" path="res://Script/Player.gd" id="1_knl85"]
 [ext_resource type="FontFile" uid="uid://cmqgoydw4vvwu" path="res://Fonts/VarelaRound-Regular.ttf" id="2_8q8jm"]
-[ext_resource type="Script" path="res://Script/Pivot.gd" id="2_yl75c"]
+[ext_resource type="Script" path="res://Script/CameraController.gd" id="2_yl75c"]
 [ext_resource type="Texture2D" uid="uid://rmkjisd4ykgu" path="res://Textures/Face.png" id="5_0u86q"]
 [ext_resource type="PackedScene" uid="uid://cdrvt7ddobsyt" path="res://Inventory/InventoryUI.tscn" id="5_1ny8p"]
 
@@ -90,6 +90,77 @@ height = 1.61998
 
 [sub_resource type="LabelSettings" id="LabelSettings_a70g4"]
 font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_xhfux"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BackpackUI/BackpackUI:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-500, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_jds66"]
+resource_name = "open"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BackpackUI/BackpackUI:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, -0.5),
+"update": 0,
+"values": [Vector2(-500, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_dccdc"]
+resource_name = "swap"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_iomjk"]
+resource_name = "close"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BackpackUI/BackpackUI:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-0.5, -2),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-500, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xuapd"]
+_data = {
+"RESET": SubResource("Animation_xhfux"),
+"close": SubResource("Animation_iomjk"),
+"open": SubResource("Animation_jds66"),
+"swap": SubResource("Animation_dccdc")
+}
 
 [sub_resource type="Curve" id="Curve_isu1j"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.967213, 0), 0.0, 0.0, 0, 0]
@@ -210,23 +281,30 @@ _data = {
 "Walking": SubResource("Animation_h3p1w")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera", "anim_player", "body") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera", "anim_player", "body", "backpack", "backpack_anim") groups=["Player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 2
 script = ExtResource("1_knl85")
-camera = NodePath("PivotHorizontal/PivotVertical/SpringArm3D/Camera3D")
+camera = NodePath("Camera3D")
 anim_player = NodePath("AnimationPlayer")
 body = NodePath("Armature/Skeleton3D/Body")
+backpack = NodePath("Interface/BackpackUI/BackpackUI")
+backpack_anim = NodePath("Interface/AnimationPlayer")
 GRAVITY_MULTIPLIER = 10.0
 SPEED = 3.0
 JUMP_VELOCITY = 10.0
 
-[node name="PivotHorizontal" type="Node3D" parent="." node_paths=PackedStringArray("cameraLook", "camera", "spring")]
+[node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="PivotHorizontal" type="Node3D" parent="." node_paths=PackedStringArray("camera", "spring", "camera_look", "camera_normal", "camera_menu", "player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 script = ExtResource("2_yl75c")
-cameraLook = NodePath("../Marker3D")
-camera = NodePath("PivotVertical/SpringArm3D/Camera3D")
+camera = NodePath("../Camera3D")
 spring = NodePath("PivotVertical/SpringArm3D")
+camera_look = NodePath("../CameraNormal")
+camera_normal = NodePath("PivotVertical/SpringArm3D/NormalPos")
+camera_menu = NodePath("../Armature/Skeleton3D/Body/MenuPos")
+player = NodePath("..")
 
 [node name="PivotVertical" type="Node3D" parent="PivotHorizontal"]
 
@@ -237,8 +315,7 @@ shape = SubResource("SphereShape3D_btu2e")
 spring_length = 4.0
 margin = 0.2
 
-[node name="Camera3D" type="Camera3D" parent="PivotHorizontal/PivotVertical/SpringArm3D"]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 3, 3)
+[node name="NormalPos" type="Marker3D" parent="PivotHorizontal/PivotVertical/SpringArm3D"]
 
 [node name="Armature" type="Node3D" parent="."]
 transform = Transform3D(-0.4, 0, -3.49691e-08, 0, 0.4, 0, 3.49691e-08, 0, -0.4, 0, -0.537431, 0)
@@ -351,6 +428,9 @@ skin = SubResource("Skin_eu6j7")
 transform = Transform3D(-0.35, 0, 3.0598e-08, 0, 0.35, 0, -3.0598e-08, 0, -0.35, -7.05767e-08, 2.14348, 0.807303)
 texture = ExtResource("5_0u86q")
 
+[node name="MenuPos" type="Marker3D" parent="Armature/Skeleton3D/Body"]
+transform = Transform3D(2.34923, 0, 0.85505, 0, 2.5, 0, -0.85505, 0, 2.34923, -0.71, 1.76858, 3.04)
+
 [node name="Nametag" type="Sprite3D" parent="."]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.709445, 0)
 billboard = 1
@@ -380,6 +460,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
@@ -419,13 +501,22 @@ label_settings = SubResource("LabelSettings_a70g4")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="InventoryUI" type="CanvasLayer" parent="Interface"]
-visible = false
+[node name="BackpackUI" type="CanvasLayer" parent="Interface"]
 
-[node name="InventoryUi" parent="Interface/InventoryUI" instance=ExtResource("5_1ny8p")]
+[node name="BackpackUI" parent="Interface/BackpackUI" node_paths=PackedStringArray("player", "animation_player") instance=ExtResource("5_1ny8p")]
+offset_left = -500.0
+offset_top = 0.0
+offset_right = -500.0
+offset_bottom = 0.0
+player = NodePath("../../..")
+animation_player = NodePath("../../AnimationPlayer")
 
-[node name="Marker3D" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.284617, 0)
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Interface"]
+libraries = {
+"": SubResource("AnimationLibrary_xuapd")
+}
+
+[node name="CameraNormal" type="Marker3D" parent="."]
 
 [node name="Area3D" type="Area3D" parent="."]
 

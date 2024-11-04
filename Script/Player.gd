@@ -3,6 +3,8 @@ extends CharacterBody3D
 @export var camera: Camera3D
 @export var anim_player: AnimationPlayer
 @export var body: MeshInstance3D
+@export var backpack: Control
+@export var backpack_anim: AnimationPlayer 
 
 @export var GRAVITY_MULTIPLIER := 1.0
 @export var SPEED := 2.0
@@ -11,13 +13,14 @@ extends CharacterBody3D
 
 @onready var walking_particles: GPUParticles3D = $GPUParticles3D
 @onready var interact_ui: CanvasLayer = $Interface/InteractUI
-@onready var inventory_ui: CanvasLayer = $Interface/InventoryUI
-@onready var chat: CanvasLayer = get_tree().get_nodes_in_group("ChatController")[0]
+@onready var inventory_ui: CanvasLayer = $Interface/BackpackUI
 @onready var nametag: Label = $Nametag/SubViewport/Label
+@onready var chat: CanvasLayer = get_tree().get_nodes_in_group("ChatController")[0]
 
 var object
-var usrnm : String
+var usrnm := ""
 var setted := false
+var isOnMenu := false
 
 var money = 0
 
@@ -35,10 +38,7 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	
 	if not is_multiplayer_authority(): return
-	
-	can_walk()
-
-	var Ores = get_tree().get_nodes_in_group("Ore")
+	if chat.get_node("Message").has_focus(): return
 
 	# Add gravity
 	if not is_on_floor():
@@ -53,12 +53,18 @@ func _physics_process(delta: float) -> void:
 			object.interact()
 	
 	if Input.is_action_just_pressed("ui_tab"):
-		inventory_ui.visible = !inventory_ui.visible
+		if backpack_anim.is_playing(): return
+		backpack.open()
 		chat.visible = !chat.visible
-
+		isOnMenu = !isOnMenu
+		if isOnMenu:
+			backpack_anim.play("open")
+		else:
+			backpack_anim.play("close")
+	
 	# Get the input direction and handle the movement/deceleration
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-		
+
 	# Convert input direction to world direction aligned with camera
 	var forward_dir = camera.global_transform.basis.z
 	var right_dir = camera.global_transform.basis.x
@@ -70,13 +76,13 @@ func _physics_process(delta: float) -> void:
 	right_dir = right_dir.normalized()
 
 	var direction := (forward_dir * input_dir.y + right_dir * input_dir.x).normalized()
-		
+
 	if direction:
 		if is_on_floor():
 			walking_particles.emitting = true
-		
+
 		anim_player.play('Walking')
-				
+
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 
@@ -110,6 +116,3 @@ func _on_area_3d_area_exited(area: Area3D) -> void:
 	object = null
 	if is_multiplayer_authority():
 		interact_ui.hide()
-	
-func can_walk():
-	if chat.get_node("Message").has_focus(): return

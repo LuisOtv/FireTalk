@@ -1,6 +1,5 @@
 extends Node
 
-
 func _ready():
 	# Application ID
 	DiscordRPC.app_id = 1204791407705849876

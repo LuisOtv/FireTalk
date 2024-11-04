@@ -506,6 +506,7 @@ placeholder_text = "IP"
 alignment = 1
 
 [node name="Chat" type="CanvasLayer" parent="." groups=["ChatController"]]
+visible = false
 script = ExtResource("3_kk6rq")
 
 [node name="Message" type="LineEdit" parent="Chat"]
@@ -531,7 +532,7 @@ focus_mode = 0
 text = "➤"
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Scenes/Player.tscn", "res://Inventory/InventoryItem.tscn")
+_spawnable_scenes = PackedStringArray("res://Scenes/Player.tscn")
 spawn_path = NodePath("..")
 
 [node name="Discord" type="Node" parent="."]

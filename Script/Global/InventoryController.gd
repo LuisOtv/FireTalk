@@ -1,7 +1,7 @@
 extends Node
 
 var inventory = []
-@export var slots = 6
+@export var slots = 15
 
 signal inventory_updated
 

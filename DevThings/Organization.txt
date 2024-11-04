@@ -1,0 +1,3 @@
+Scripts/Scenes/Materials/Texture: LikeThis.*
+Variables: like_this
+Functions: like_this()

@@ -81,7 +81,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DetailsPanel" type="Panel" parent="."]
-visible = false
 z_index = 1
 layout_mode = 0
 offset_top = 160.0
@@ -109,9 +108,19 @@ text = "DEV ITEM"
 layout_mode = 2
 text = "WITHOUT THIS THE GAME WILL CRASH"
 
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/hover = SubResource("StyleBoxEmpty_at2a0")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_wtdcr")
+
 [node name="UsePanel" type="Panel" parent="."]
-visible = false
 z_index = 2
+layout_mode = 0
 offset_top = 160.0
 offset_right = 322.0
 offset_bottom = 240.0
@@ -132,16 +141,6 @@ text = "USE"
 [node name="Button2" type="Button" parent="UsePanel/VSplitContainer"]
 layout_mode = 2
 text = "DROP"
-
-[node name="Button" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/hover = SubResource("StyleBoxEmpty_at2a0")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_wtdcr")
 
 [connection signal="mouse_entered" from="Button" to="." method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="Button" to="." method="_on_button_mouse_exited"]
