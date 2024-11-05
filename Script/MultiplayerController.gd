@@ -16,6 +16,7 @@ func _on_host_pressed() -> void:
 	joined()
 
 func _on_join_pressed() -> void:
+	if line_edit.text == "": line_edit.text = "localhost"
 	menu.hide()
 	peer.create_client(line_edit.text, 1027)
 	multiplayer.multiplayer_peer = peer

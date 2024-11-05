@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=4 uid="uid://bcnip34hyv58q"]
+[gd_scene load_steps=50 format=4 uid="uid://bcnip34hyv58q"]
 
 [ext_resource type="Script" path="res://Script/MultiplayerController.gd" id="1_48ctf"]
 [ext_resource type="PackedScene" uid="uid://crfget6py65uj" path="res://Scenes/Player.tscn" id="2_vdh4l"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://bnc4jjvp0g6jr" path="res://Shaders/clear+sea+water-2048x2048.png" id="8_g5sl4"]
 [ext_resource type="PackedScene" uid="uid://4kytso6hbxr3" path="res://MapPieces/Tree2.tscn" id="9_vymks"]
 [ext_resource type="PackedScene" uid="uid://hoyexacbib3v" path="res://Scenes/Ore.tscn" id="10_caipt"]
+[ext_resource type="Script" path="res://Script/Teleport.gd" id="11_jrkxa"]
 [ext_resource type="Script" path="res://Script/Recover.gd" id="11_k7qed"]
 [ext_resource type="PackedScene" uid="uid://7mbtv7q03dlb" path="res://Inventory/InventoryItem.tscn" id="12_7wflf"]
 [ext_resource type="Texture2D" uid="uid://muqd0lpvrieh" path="res://Textures/Cube.png" id="15_2gsgk"]
@@ -329,14 +330,14 @@ player_scene = ExtResource("2_vdh4l")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_5kxou")
 
-[node name="World" type="Node3D" parent="."]
+[node name="Overworld" type="Node3D" parent="."]
 
-[node name="Ocean" type="MeshInstance3D" parent="World"]
+[node name="Ocean" type="MeshInstance3D" parent="Overworld"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.481816, 0)
 mesh = SubResource("PlaneMesh_vb61q")
 surface_material_override/0 = SubResource("ShaderMaterial_4yg0f")
 
-[node name="Grass" type="CSGCylinder3D" parent="World"]
+[node name="Grass" type="CSGCylinder3D" parent="Overworld"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.43293, -1.04802, 0)
 use_collision = true
 radius = 12.9529
@@ -344,114 +345,116 @@ height = 1.94305
 sides = 15
 material = SubResource("StandardMaterial3D_b1k6v")
 
-[node name="Firepit" type="Node3D" parent="World"]
+[node name="Firepit" type="Node3D" parent="Overworld"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.23465, 0, 0)
 
-[node name="Gravel" type="MeshInstance3D" parent="World/Firepit"]
+[node name="Gravel" type="MeshInstance3D" parent="Overworld/Firepit"]
 transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 4, 0, -0.163477, 0)
 mesh = SubResource("ArrayMesh_fut1x")
 skeleton = NodePath("../../..")
 
-[node name="Sprite3D" type="Sprite3D" parent="World/Firepit"]
+[node name="Sprite3D" type="Sprite3D" parent="Overworld/Firepit"]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0.419665, 0)
 billboard = 2
 texture = ExtResource("5_exp8c")
 
-[node name="Wood" type="MeshInstance3D" parent="World/Firepit"]
+[node name="Wood" type="MeshInstance3D" parent="Overworld/Firepit"]
 transform = Transform3D(0.19, 0, 0, 0, -8.30516e-09, 0.19, 0, -0.19, -8.30516e-09, 0, 0.0728152, 0)
 mesh = SubResource("ArrayMesh_ujgkm")
 
-[node name="Wood2" type="MeshInstance3D" parent="World/Firepit"]
+[node name="Wood2" type="MeshInstance3D" parent="Overworld/Firepit"]
 transform = Transform3D(0.0757471, -0.174248, -7.61662e-09, 0, -8.30517e-09, 0.19, -0.174248, -0.0757471, -3.31101e-09, 0, 0.0728152, 0)
 mesh = SubResource("ArrayMesh_ujgkm")
 
-[node name="Wood3" type="MeshInstance3D" parent="World/Firepit"]
+[node name="Wood3" type="MeshInstance3D" parent="Overworld/Firepit"]
 transform = Transform3D(-0.145057, -0.122713, -5.36395e-09, 0.026815, -0.0316976, 0.185408, -0.119747, 0.141551, 0.0415184, 0, 0.0728152, 0)
 mesh = SubResource("ArrayMesh_ujgkm")
 
-[node name="Ashes" type="MeshInstance3D" parent="World/Firepit"]
+[node name="Ashes" type="MeshInstance3D" parent="Overworld/Firepit"]
 transform = Transform3D(0.08, 0, 0, 0, 0.23, 0, 0, 0, 0.08, 0, -0.256307, 0)
 mesh = SubResource("ArrayMesh_h06eu")
 skeleton = NodePath("")
 
-[node name="Houses" type="Node3D" parent="World"]
+[node name="Houses" type="Node3D" parent="Overworld"]
 
-[node name="House" type="StaticBody3D" parent="World/Houses"]
+[node name="House" type="StaticBody3D" parent="Overworld/Houses"]
 transform = Transform3D(1.61, 0, 0, 0, 1.61, 0, 0, 0, 1.61, -10.7983, 0.61581, -0.594918)
 collision_layer = 5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Houses/House"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Overworld/Houses/House"]
 shape = SubResource("ConcavePolygonShape3D_jdrku")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Houses/House"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Overworld/Houses/House"]
 mesh = SubResource("ArrayMesh_6p7rm")
 
-[node name="House2" type="StaticBody3D" parent="World/Houses"]
+[node name="House2" type="StaticBody3D" parent="Overworld/Houses"]
 transform = Transform3D(-7.03753e-08, 0, -1.61, 0, 1.61, 0, 1.61, 0, -7.03753e-08, -2.716, 0.61581, -8.12422)
 collision_layer = 5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Houses/House2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Overworld/Houses/House2"]
 shape = SubResource("ConcavePolygonShape3D_jdrku")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Houses/House2"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Overworld/Houses/House2"]
 mesh = SubResource("ArrayMesh_6p7rm")
 
-[node name="House3" type="StaticBody3D" parent="World/Houses"]
+[node name="House3" type="StaticBody3D" parent="Overworld/Houses"]
 transform = Transform3D(-7.03753e-08, 0, 1.61, 0, 1.61, 0, -1.61, 0, -7.03753e-08, -3.97124, 0.61581, 8.42322)
 collision_layer = 5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Houses/House3"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Overworld/Houses/House3"]
 shape = SubResource("ConcavePolygonShape3D_jdrku")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Houses/House3"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Overworld/Houses/House3"]
 mesh = SubResource("ArrayMesh_6p7rm")
 
-[node name="Rocks" type="Node3D" parent="World"]
+[node name="Rocks" type="Node3D" parent="Overworld"]
 
-[node name="Rock" type="MeshInstance3D" parent="World/Rocks"]
+[node name="Rock" type="MeshInstance3D" parent="Overworld/Rocks"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.6259)
 mesh = SubResource("ArrayMesh_shh58")
 skeleton = NodePath("")
 
-[node name="Rock2" type="MeshInstance3D" parent="World/Rocks"]
+[node name="Rock2" type="MeshInstance3D" parent="Overworld/Rocks"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.389523, 0, 2.89828)
 mesh = SubResource("ArrayMesh_mijtk")
 skeleton = NodePath("")
 
-[node name="Rock3" type="MeshInstance3D" parent="World/Rocks"]
+[node name="Rock3" type="MeshInstance3D" parent="Overworld/Rocks"]
 transform = Transform3D(0.6, 0, 0, 0, 1, 0, 0, 0, 0.6, -5.65629, 0, -1.96471)
 mesh = SubResource("ArrayMesh_mijtk")
 skeleton = NodePath("")
 
-[node name="Trees" type="Node3D" parent="World"]
+[node name="Trees" type="Node3D" parent="Overworld"]
 
-[node name="Tree" parent="World/Trees" instance=ExtResource("8_6codq")]
+[node name="Tree" parent="Overworld/Trees" instance=ExtResource("8_6codq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.97754, 0, -3.9971)
 
-[node name="Tree2" parent="World/Trees" instance=ExtResource("9_vymks")]
+[node name="Tree2" parent="Overworld/Trees" instance=ExtResource("9_vymks")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.54224, 0, -6.7601)
 
-[node name="Cave" type="StaticBody3D" parent="World"]
+[node name="Cave" type="StaticBody3D" parent="Overworld"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.3653, 0, 0)
 collision_layer = 5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Cave"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Overworld/Cave"]
 shape = SubResource("ConcavePolygonShape3D_wmfmo")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Cave"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Overworld/Cave"]
 mesh = SubResource("ArrayMesh_5uimc")
 
-[node name="Ore" parent="World" instance=ExtResource("10_caipt")]
+[node name="Teleport" parent="Overworld" node_paths=PackedStringArray("target") groups=["Interactable", "Teleport"] instance=ExtResource("10_caipt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.3412, 1, 0.0202942)
+script = ExtResource("11_jrkxa")
+target = NodePath("../../UnderWorld/UnderworldSpawnPoint")
 
-[node name="Wall" type="StaticBody3D" parent="World"]
+[node name="Wall" type="StaticBody3D" parent="Overworld"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.951908, 0.434208, -1.05772, -0.00725007)
 collision_layer = 5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Wall"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Overworld/Wall"]
 shape = SubResource("ConcavePolygonShape3D_ia6fn")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Wall"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Overworld/Wall"]
 mesh = SubResource("ArrayMesh_3t0an")
 
 [node name="Respawn Point" type="Marker3D" parent="."]
@@ -506,6 +509,7 @@ placeholder_text = "IP"
 alignment = 1
 
 [node name="Chat" type="CanvasLayer" parent="." groups=["ChatController"]]
+layer = 5
 visible = false
 script = ExtResource("3_kk6rq")
 
@@ -544,6 +548,33 @@ item_name = "Cube"
 item_type = "Dev Item"
 item_effect = "This makes the game"
 item_texture = ExtResource("15_2gsgk")
+
+[node name="UnderWorld" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 84, 0, 0)
+
+[node name="Grass" type="CSGCylinder3D" parent="UnderWorld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.43293, -1.04802, 0)
+use_collision = true
+radius = 12.9529
+height = 1.94305
+sides = 15
+material = SubResource("StandardMaterial3D_b1k6v")
+
+[node name="Cave" type="StaticBody3D" parent="UnderWorld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.3653, 0, 0)
+collision_layer = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="UnderWorld/Cave"]
+shape = SubResource("ConcavePolygonShape3D_wmfmo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="UnderWorld/Cave"]
+mesh = SubResource("ArrayMesh_5uimc")
+
+[node name="Ore" parent="UnderWorld" instance=ExtResource("10_caipt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.3412, 1, 0.0202942)
+
+[node name="UnderworldSpawnPoint" type="Marker3D" parent="UnderWorld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.07757, 0)
 
 [connection signal="area_entered" from="MapBoundaries" to="MapBoundaries" method="_on_area_entered"]
 [connection signal="area_shape_entered" from="MapBoundaries" to="MapBoundaries" method="_on_area_shape_entered"]

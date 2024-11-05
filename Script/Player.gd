@@ -33,7 +33,9 @@ func _ready():
 	
 	usrnm = PlayerInfo.usrnm
 	nametag.text = usrnm
-	chat.show()
+	if is_multiplayer_authority():
+		chat.show()
+		inventory_ui.show()
 
 func _physics_process(delta: float) -> void:
 	
@@ -50,7 +52,10 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("ui_e") and is_on_floor():
 		if object != null:
-			object.interact()
+			if object.is_in_group("Item"):
+				object.interact()
+			elif object.is_in_group("Teleport"):
+				object.interact(self)
 	
 	if Input.is_action_just_pressed("ui_tab"):
 		if backpack_anim.is_playing(): return

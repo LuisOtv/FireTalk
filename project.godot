@@ -35,6 +35,7 @@ enabled=PackedStringArray("res://addons/csg_converter/plugin.cfg")
 ChatController=""
 Ore=""
 Interactable="Things you can interact"
+Teleport=""
 
 [input]
 
