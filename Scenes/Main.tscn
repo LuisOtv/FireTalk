@@ -621,18 +621,26 @@ target = NodePath("../../Overworld/OverworldSpawnPoint")
 [node name="Menu" type="CanvasLayer" parent="."]
 
 [node name="Panel" type="Panel" parent="Menu"]
-offset_left = -10.0
-offset_top = -7.0
-offset_right = 1165.0
-offset_bottom = 657.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4rqjv")
 
 [node name="PanelContainer" type="PanelContainer" parent="Menu/Panel"]
-layout_mode = 0
-offset_left = 413.0
-offset_top = 261.5
-offset_right = 739.0
-offset_bottom = 386.5
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -163.0
+offset_top = -68.0
+offset_right = 163.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_1wy6g")
 
 [node name="MarginContainer" type="MarginContainer" parent="Menu/Panel/PanelContainer"]

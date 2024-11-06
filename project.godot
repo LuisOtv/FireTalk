@@ -21,10 +21,15 @@ PlayerInfo="*res://Script/Global/PlayerInfo.gd"
 DiscordRPCLoader="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
 InventoryController="*res://Script/Global/InventoryController.gd"
 SteamController="*res://Script/Global/SteamController.gd"
+Resolution="*res://Script/Global/Resolution.gd"
 
 [display]
 
-window/size/resizable=false
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/mode=3
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 
 [editor_plugins]
 

@@ -397,15 +397,18 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="InteractUI" type="CanvasLayer" parent="Interface"]
-visible = false
 
 [node name="InteractUI" type="Control" parent="Interface/InteractUI"]
 layout_mode = 3
-anchors_preset = 0
-offset_left = 1112.0
-offset_top = 608.0
-offset_right = 1152.0
-offset_bottom = 648.0
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [node name="ColorRect" type="ColorRect" parent="Interface/InteractUI/InteractUI"]
 layout_mode = 1
@@ -432,9 +435,10 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BackpackUI" type="CanvasLayer" parent="Interface"]
-visible = false
 
 [node name="BackpackUI" parent="Interface/BackpackUI" instance=ExtResource("5_1ny8p")]
+offset_right = -1268.0
+offset_bottom = -432.0
 
 [node name="HotbarUI" type="CanvasLayer" parent="Interface"]
 

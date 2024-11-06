@@ -143,10 +143,10 @@ animation_player = NodePath("AnimationPlayer")
 
 [node name="Inventory" type="Button" parent="."]
 layout_mode = 0
-offset_left = 375.0
-offset_top = 80.0
-offset_right = 407.0
-offset_bottom = 136.0
+offset_left = 357.0
+offset_top = 278.0
+offset_right = 389.0
+offset_bottom = 334.0
 focus_mode = 0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_13sps")
 theme_override_styles/hover = SubResource("StyleBoxFlat_8gql5")
@@ -160,10 +160,10 @@ texture = ExtResource("2_v7qyp")
 
 [node name="Customization" type="Button" parent="."]
 layout_mode = 0
-offset_left = 375.0
-offset_top = 140.0
-offset_right = 407.0
-offset_bottom = 196.0
+offset_left = 357.0
+offset_top = 338.0
+offset_right = 389.0
+offset_bottom = 394.0
 focus_mode = 0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ffou5")
 theme_override_styles/hover = SubResource("StyleBoxFlat_8gql5")
@@ -177,10 +177,10 @@ texture = ExtResource("3_fvrny")
 
 [node name="Extra" type="Button" parent="."]
 layout_mode = 0
-offset_left = 375.0
-offset_top = 200.0
-offset_right = 407.0
-offset_bottom = 256.0
+offset_left = 357.0
+offset_top = 398.0
+offset_right = 389.0
+offset_bottom = 454.0
 focus_mode = 0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_xo8jv")
 theme_override_styles/hover = SubResource("StyleBoxFlat_8gql5")
@@ -194,10 +194,10 @@ texture = ExtResource("4_1xx5h")
 
 [node name="Settings" type="Button" parent="."]
 layout_mode = 0
-offset_left = 375.0
-offset_top = 507.0
-offset_right = 407.0
-offset_bottom = 563.0
+offset_left = 357.0
+offset_top = 705.0
+offset_right = 389.0
+offset_bottom = 761.0
 focus_mode = 0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_mks25")
 theme_override_styles/hover = SubResource("StyleBoxFlat_mxhtf")
@@ -211,14 +211,11 @@ texture = ExtResource("5_47085")
 
 [node name="OuterBorder" type="Panel" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 41.0
-offset_top = 48.0
-offset_right = -771.0
-offset_bottom = -48.0
-grow_horizontal = 2
+anchors_preset = -1
+offset_left = 16.0
+offset_top = 245.0
+offset_right = 356.0
+offset_bottom = 805.0
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ti4f4")
 
@@ -227,10 +224,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 3.0
-offset_top = 3.0
-offset_right = -3.0
-offset_bottom = -3.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qd6er")
