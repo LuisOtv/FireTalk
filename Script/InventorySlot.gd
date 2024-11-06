@@ -19,15 +19,16 @@ func _process(delta: float) -> void:
 		InventoryController.remove_item(index)
 		set_empty()
 	if Input.is_action_just_pressed("ui_1") and selected:
-		InventoryController.add_item_hotbar(item,0)
+		InventoryController.move_item_hotbar(item,0)
 	elif Input.is_action_just_pressed("ui_2") and selected:
-		InventoryController.add_item_hotbar(item,1)
+		InventoryController.move_item_hotbar(item,1)
 	elif Input.is_action_just_pressed("ui_3") and selected:
-		InventoryController.add_item_hotbar(item,2)
+		InventoryController.move_item_hotbar(item,2)
 	elif Input.is_action_just_pressed("ui_4") and selected:
-		InventoryController.add_item_hotbar(item,3)
+		InventoryController.move_item_hotbar(item,3)
 	elif Input.is_action_just_pressed("ui_5") and selected:
-		InventoryController.add_item_hotbar(item,4)
+		InventoryController.move_item_hotbar(item,4)
+
 
 func _on_button_mouse_entered() -> void:
 	if item != null:

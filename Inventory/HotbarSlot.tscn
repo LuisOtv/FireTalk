@@ -28,7 +28,7 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[node name="HotbarSlot" type="Control" node_paths=PackedStringArray("item_image")]
+[node name="HotbarSlot" type="Control" node_paths=PackedStringArray("item_image", "label")]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 3
 anchors_preset = 15
@@ -42,6 +42,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_blwfg")
 item_image = NodePath("OuterBorder/InnerBorder/ItemImage")
+label = NodePath("Panel/Label")
 
 [node name="OuterBorder" type="Panel" parent="."]
 layout_mode = 1

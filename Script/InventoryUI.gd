@@ -25,6 +25,7 @@ func _on_inventory_updated():
 			slot.set_item(item)
 		else:
 			slot.set_empty()
+			
 
 func clear_grid_container():
 	while grid_container.get_child_count() > 0:

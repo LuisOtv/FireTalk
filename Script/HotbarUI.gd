@@ -6,10 +6,10 @@ var opened := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	InventoryController.inventory_updated.connect(_on_inventory_updated)
-	_on_inventory_updated()
+	InventoryController.hotbar_updated.connect(_on_hotbar_updated)
+	_on_hotbar_updated()
 
-func _on_inventory_updated():
+func _on_hotbar_updated():
 	clear_grid_container()
 	
 	for item in InventoryController.hotbar:
