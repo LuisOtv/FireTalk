@@ -1,54 +1,215 @@
-[gd_scene load_steps=5 format=3 uid="uid://cdrvt7ddobsyt"]
+[gd_scene load_steps=22 format=3 uid="uid://cdrvt7ddobsyt"]
 
 [ext_resource type="Script" path="res://Script/InventoryUI.gd" id="1_033ce"]
+[ext_resource type="Texture2D" uid="uid://clfhnx3rjjjn2" path="res://Inventory/Icons/Backpack.png" id="2_v7qyp"]
+[ext_resource type="Texture2D" uid="uid://ssfs20s4kdbp" path="res://Inventory/Icons/Silluete.png" id="3_fvrny"]
+[ext_resource type="Texture2D" uid="uid://c6faidd76amg8" path="res://Inventory/Icons/Extra.png" id="4_1xx5h"]
+[ext_resource type="Texture2D" uid="uid://b55orceead4uj" path="res://Inventory/Icons/Gear.png" id="5_47085"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_13sps"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8gql5"]
+bg_color = Color(0.763984, 0.335245, 0.24281, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7wygc"]
 bg_color = Color(0.889249, 0.45807, 0.362679, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ffou5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hk7u8"]
 bg_color = Color(0.889249, 0.45807, 0.362679, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xo4n0"]
-bg_color = Color(0.889249, 0.45807, 0.362679, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xo8jv"]
 
-[node name="BackpackUI" type="Control"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mks25"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mxhtf"]
+bg_color = Color(0.264456, 0.494958, 0.540502, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_opa4f"]
+bg_color = Color(0.364458, 0.63331, 0.687022, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ti4f4"]
+bg_color = Color(0.46779, 0.195433, 0.0650335, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qd6er"]
+bg_color = Color(0.778024, 0.341719, 0.212922, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="Animation" id="Animation_xhfux"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-500, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_iomjk"]
+resource_name = "close"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-500, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_jds66"]
+resource_name = "open"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-500, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_dccdc"]
+resource_name = "swap"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 15), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xuapd"]
+_data = {
+"RESET": SubResource("Animation_xhfux"),
+"close": SubResource("Animation_iomjk"),
+"open": SubResource("Animation_jds66"),
+"swap": SubResource("Animation_dccdc")
+}
+
+[node name="BackpackUI" type="Control" node_paths=PackedStringArray("grid_container", "inventory", "customization", "extra", "settings", "animation_player")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 15.0
-offset_bottom = 15.0
+offset_left = -500.0
+offset_right = -500.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_033ce")
+grid_container = NodePath("OuterBorder/InnerBorder/Inventory/GridContainer")
+inventory = NodePath("OuterBorder/InnerBorder/Inventory")
+customization = NodePath("OuterBorder/InnerBorder/Customization")
+extra = NodePath("OuterBorder/InnerBorder/Extra")
+settings = NodePath("OuterBorder/InnerBorder/Settings")
+animation_player = NodePath("AnimationPlayer")
 
 [node name="Inventory" type="Button" parent="."]
 layout_mode = 0
 offset_left = 375.0
-offset_top = 79.0
+offset_top = 80.0
 offset_right = 407.0
-offset_bottom = 135.0
+offset_bottom = 136.0
+focus_mode = 0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_13sps")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8gql5")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_7wygc")
 theme_override_styles/normal = SubResource("StyleBoxFlat_7wygc")
+
+[node name="Sprite2D" type="Sprite2D" parent="Inventory"]
+position = Vector2(19, 28)
+scale = Vector2(0.085, 0.085)
+texture = ExtResource("2_v7qyp")
 
 [node name="Customization" type="Button" parent="."]
 layout_mode = 0
-offset_left = 376.0
-offset_top = 139.0
-offset_right = 408.0
-offset_bottom = 195.0
+offset_left = 375.0
+offset_top = 140.0
+offset_right = 407.0
+offset_bottom = 196.0
+focus_mode = 0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ffou5")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8gql5")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hk7u8")
 theme_override_styles/normal = SubResource("StyleBoxFlat_hk7u8")
+
+[node name="Sprite2D" type="Sprite2D" parent="Customization"]
+position = Vector2(19, 28)
+scale = Vector2(0.085, 0.085)
+texture = ExtResource("3_fvrny")
 
 [node name="Extra" type="Button" parent="."]
 layout_mode = 0
-offset_left = 374.0
-offset_top = 202.0
-offset_right = 406.0
-offset_bottom = 258.0
-theme_override_styles/hover = SubResource("StyleBoxFlat_7wygc")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_7wygc")
-theme_override_styles/normal = SubResource("StyleBoxFlat_xo4n0")
+offset_left = 375.0
+offset_top = 200.0
+offset_right = 407.0
+offset_bottom = 256.0
+focus_mode = 0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_xo8jv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8gql5")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hk7u8")
+theme_override_styles/normal = SubResource("StyleBoxFlat_hk7u8")
 
-[node name="OuterBorder" type="ColorRect" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="Extra"]
+position = Vector2(19, 28)
+scale = Vector2(0.085, 0.085)
+texture = ExtResource("4_1xx5h")
+
+[node name="Settings" type="Button" parent="."]
+layout_mode = 0
+offset_left = 375.0
+offset_top = 507.0
+offset_right = 407.0
+offset_bottom = 563.0
+focus_mode = 0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mks25")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mxhtf")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_opa4f")
+theme_override_styles/normal = SubResource("StyleBoxFlat_opa4f")
+
+[node name="Sprite2D" type="Sprite2D" parent="Settings"]
+position = Vector2(19, 28)
+scale = Vector2(0.085, 0.085)
+texture = ExtResource("5_47085")
+
+[node name="OuterBorder" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -59,9 +220,9 @@ offset_right = -771.0
 offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.475264, 0.183941, 0.113592, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_ti4f4")
 
-[node name="InnerBorder" type="ColorRect" parent="OuterBorder"]
+[node name="InnerBorder" type="Panel" parent="OuterBorder"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -72,9 +233,17 @@ offset_right = -3.0
 offset_bottom = -3.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.519235, 0.580019, 0.364429, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_qd6er")
 
 [node name="Inventory" type="Control" parent="OuterBorder/InnerBorder"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="OuterBorder/InnerBorder/Inventory"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -83,42 +252,95 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
+columns = 3
 
-[node name="GridContainer" type="GridContainer" parent="OuterBorder/InnerBorder/Inventory"]
+[node name="Customization" type="Control" parent="OuterBorder/InnerBorder"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 4
-columns = 3
 
-[node name="Customization" type="CanvasLayer" parent="OuterBorder/InnerBorder"]
-layer = 2
+[node name="Label" type="Label" parent="OuterBorder/InnerBorder/Customization"]
+layout_mode = 0
+offset_top = 17.0
+offset_right = 334.0
+offset_bottom = 40.0
+text = "Customization"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Extra" type="Control" parent="OuterBorder/InnerBorder"]
 visible = false
+anchors_preset = 0
 
-[node name="Label2" type="Label" parent="OuterBorder/InnerBorder/Customization"]
-offset_left = 61.0
-offset_top = 312.0
-offset_right = 361.0
-offset_bottom = 335.0
-text = "Customize
-"
-metadata/_edit_use_anchors_ = true
-
-[node name="Extra" type="CanvasLayer" parent="OuterBorder/InnerBorder"]
-layer = 2
-visible = false
-
-[node name="Label" type="Label" parent="OuterBorder/InnerBorder/Extra"]
-offset_left = 61.0
-offset_top = 312.0
-offset_right = 361.0
-offset_bottom = 335.0
+[node name="Label2" type="Label" parent="OuterBorder/InnerBorder/Extra"]
+layout_mode = 0
+offset_top = 17.0
+offset_right = 334.0
+offset_bottom = 40.0
 text = "Extra
+
 "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Settings" type="Control" parent="OuterBorder/InnerBorder"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="OuterBorder/InnerBorder/Settings"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_right = -64.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label2" type="Label" parent="OuterBorder/InnerBorder/Settings/VBoxContainer"]
+layout_mode = 2
+text = "This Slider Does Nothing
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="OuterBorder/InnerBorder/Settings/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+
+[node name="Exit" type="Button" parent="OuterBorder/InnerBorder/Settings/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+text = "EXIT"
+
+[node name="Label" type="Label" parent="OuterBorder/InnerBorder/Settings"]
+layout_mode = 2
+offset_top = 17.0
+offset_right = 334.0
+offset_bottom = 40.0
+text = "Settings
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xuapd")
+}
 
 [connection signal="pressed" from="Inventory" to="." method="_on_inventory_pressed"]
 [connection signal="pressed" from="Customization" to="." method="_on_customization_pressed"]
 [connection signal="pressed" from="Extra" to="." method="_on_extra_pressed"]
+[connection signal="pressed" from="Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="OuterBorder/InnerBorder/Settings/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

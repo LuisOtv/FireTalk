@@ -1,8 +1,8 @@
 extends CanvasLayer
 
-@onready var message: LineEdit = $Message
-@onready var messages: TextEdit = $Messages
-@onready var send: Button = $Send
+@export var message: LineEdit 
+@export var messages: TextEdit 
+@export var send: Button 
 
 func _on_send_pressed() -> void:
 	if message.text != "":

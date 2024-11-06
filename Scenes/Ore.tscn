@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://hoyexacbib3v"]
+[gd_scene load_steps=6 format=4 uid="uid://hoyexacbib3v"]
 
 [ext_resource type="Script" path="res://Script/Ore.gd" id="1_doqqg"]
 
@@ -22,11 +22,6 @@ _surfaces = [{
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_v1y2h"]
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_n46ks"]
-properties/0/path = NodePath(".:life")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-
 [node name="Ore" type="StaticBody3D"]
 script = ExtResource("1_doqqg")
 
@@ -42,6 +37,3 @@ mesh = SubResource("ArrayMesh_shgr4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("SphereShape3D_v1y2h")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_n46ks")

@@ -1,5 +1,6 @@
 extends Node3D
 
+@export var transition: ColorRect
 @onready var menu: CanvasLayer = $Menu
 @onready var chat: CanvasLayer = $Chat
 @onready var line_edit: LineEdit = $Menu/Panel/PanelContainer/MarginContainer/VBoxContainer/LineEdit
@@ -9,6 +10,8 @@ extends Node3D
 var peer = ENetMultiplayerPeer.new()
 
 func _on_host_pressed() -> void:
+	transition.animation_player.play("FadeIn")
+	await transition.animation_player.animation_finished
 	menu.hide()
 	peer.create_server(1027)
 	multiplayer.multiplayer_peer = peer
@@ -16,6 +19,8 @@ func _on_host_pressed() -> void:
 	joined()
 
 func _on_join_pressed() -> void:
+	transition.animation_player.play("FadeIn")
+	await transition.animation_player.animation_finished
 	if line_edit.text == "": line_edit.text = "localhost"
 	menu.hide()
 	peer.create_client(line_edit.text, 1027)

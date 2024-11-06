@@ -25,14 +25,12 @@ func _input(event):
 				is_rotating = false  
 				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
 
-		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN and spring.spring_length <= 6.0:
 			spring.spring_length += 0.2
-		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
+		elif event.button_index == MOUSE_BUTTON_WHEEL_UP and spring.spring_length >= 3.0:
 			spring.spring_length -= 0.2
 
 func _process(delta: float) -> void:
-	
-	spring.spring_length = clamp(spring.spring_length, 3, 10)
 	
 	if is_rotating:
 		var mouse_delta = Input.get_last_mouse_velocity()  

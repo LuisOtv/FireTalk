@@ -5,13 +5,14 @@
 [ext_resource type="FontFile" uid="uid://cmqgoydw4vvwu" path="res://Fonts/VarelaRound-Regular.ttf" id="2_w0jec"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2y7nl"]
+bg_color = Color(0.826466, 0.604294, 0.358821, 1)
 corner_radius_top_left = 75
 corner_radius_top_right = 75
 corner_radius_bottom_right = 75
 corner_radius_bottom_left = 75
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oi5n1"]
-bg_color = Color(0.180005, 0.180005, 0.180005, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d8dq4"]
+bg_color = Color(0.934125, 0.766855, 0.592558, 1)
 corner_radius_top_left = 75
 corner_radius_top_right = 75
 corner_radius_bottom_right = 75
@@ -25,7 +26,7 @@ font_size = 32
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wtdcr"]
 
-[node name="InventorySlot" type="Control"]
+[node name="InventorySlot" type="Control" node_paths=PackedStringArray("item_image", "item_quantity", "item_name", "item_type", "item_effect", "details_panel")]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 3
 anchors_preset = 15
@@ -38,6 +39,12 @@ offset_bottom = -538.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dokyu")
+item_image = NodePath("OuterBorder/InnerBorder/ItemImage")
+item_quantity = NodePath("OuterBorder/InnerBorder/ItemQuantity")
+item_name = NodePath("DetailsPanel/VSplitContainer/ItemName")
+item_type = NodePath("DetailsPanel/VSplitContainer/ItemType")
+item_effect = NodePath("DetailsPanel/VSplitContainer/ItemEffect")
+details_panel = NodePath("DetailsPanel")
 
 [node name="OuterBorder" type="Panel" parent="."]
 layout_mode = 1
@@ -61,7 +68,7 @@ offset_right = 45.0
 offset_bottom = 45.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_oi5n1")
+theme_override_styles/panel = SubResource("StyleBoxFlat_d8dq4")
 
 [node name="ItemImage" type="Sprite2D" parent="OuterBorder/InnerBorder"]
 position = Vector2(46, 43)
@@ -81,6 +88,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DetailsPanel" type="Panel" parent="."]
+visible = false
 z_index = 1
 layout_mode = 0
 offset_top = 160.0
@@ -115,33 +123,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_at2a0")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_at2a0")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_at2a0")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_wtdcr")
 
-[node name="UsePanel" type="Panel" parent="."]
-z_index = 2
-layout_mode = 0
-offset_top = 160.0
-offset_right = 322.0
-offset_bottom = 240.0
-
-[node name="VSplitContainer" type="VBoxContainer" parent="UsePanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
-
-[node name="Button" type="Button" parent="UsePanel/VSplitContainer"]
-layout_mode = 2
-text = "USE"
-
-[node name="Button2" type="Button" parent="UsePanel/VSplitContainer"]
-layout_mode = 2
-text = "DROP"
-
+[connection signal="mouse_entered" from="OuterBorder" to="." method="_on_outer_border_mouse_entered"]
+[connection signal="mouse_entered" from="OuterBorder/InnerBorder" to="." method="_on_inner_border_mouse_entered"]
+[connection signal="mouse_exited" from="OuterBorder/InnerBorder" to="." method="_on_inner_border_mouse_exited"]
 [connection signal="mouse_entered" from="Button" to="." method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="Button" to="." method="_on_button_mouse_exited"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

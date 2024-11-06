@@ -1,0 +1,108 @@
+[gd_scene load_steps=8 format=3 uid="uid://ymfpxu2w73i0"]
+
+[ext_resource type="Script" path="res://Script/HotbarSlot.gd" id="1_blwfg"]
+[ext_resource type="Texture2D" uid="uid://muqd0lpvrieh" path="res://Textures/Cube.png" id="2_dhgjo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2y7nl"]
+bg_color = Color(0.826466, 0.604294, 0.358821, 1)
+corner_radius_top_left = 75
+corner_radius_top_right = 75
+corner_radius_bottom_right = 75
+corner_radius_bottom_left = 75
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d8dq4"]
+bg_color = Color(0.934125, 0.766855, 0.592558, 1)
+corner_radius_top_left = 75
+corner_radius_top_right = 75
+corner_radius_bottom_right = 75
+corner_radius_bottom_left = 75
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_at2a0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wtdcr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cmtob"]
+bg_color = Color(0.372763, 0.673162, 0.522991, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="HotbarSlot" type="Control" node_paths=PackedStringArray("item_image")]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -1092.0
+offset_bottom = -588.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_blwfg")
+item_image = NodePath("OuterBorder/InnerBorder/ItemImage")
+
+[node name="OuterBorder" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2y7nl")
+
+[node name="InnerBorder" type="Panel" parent="OuterBorder"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_d8dq4")
+
+[node name="ItemImage" type="Sprite2D" parent="OuterBorder/InnerBorder"]
+position = Vector2(25, 24)
+scale = Vector2(0.174533, 0.178561)
+texture = ExtResource("2_dhgjo")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_at2a0")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_at2a0")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_at2a0")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_wtdcr")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = -6.0
+offset_top = -4.0
+offset_right = 16.0
+offset_bottom = 18.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_cmtob")
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -12.0
+offset_right = 20.0
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="mouse_entered" from="Button" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Button" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

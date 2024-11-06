@@ -4,7 +4,6 @@ extends CharacterBody3D
 @export var anim_player: AnimationPlayer
 @export var body: MeshInstance3D
 @export var backpack: Control
-@export var backpack_anim: AnimationPlayer 
 
 @export var GRAVITY_MULTIPLIER := 1.0
 @export var SPEED := 2.0
@@ -14,15 +13,19 @@ extends CharacterBody3D
 @onready var walking_particles: GPUParticles3D = $GPUParticles3D
 @onready var interact_ui: CanvasLayer = $Interface/InteractUI
 @onready var inventory_ui: CanvasLayer = $Interface/BackpackUI
+@onready var hotbar_ui: CanvasLayer = $Interface/HotbarUI
 @onready var nametag: Label = $Nametag/SubViewport/Label
 @onready var chat: CanvasLayer = get_tree().get_nodes_in_group("ChatController")[0]
+@onready var transition: ColorRect = get_tree().get_nodes_in_group("Transition")[0]
 
-var object
+var nearby_objects = []
 var usrnm := ""
 var setted := false
 var isOnMenu := false
 
 var money = 0
+
+signal backpack_change_state
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
@@ -34,11 +37,11 @@ func _ready():
 	usrnm = PlayerInfo.usrnm
 	nametag.text = usrnm
 	if is_multiplayer_authority():
+		backpack.animation_player.play("close")
 		chat.show()
 		inventory_ui.show()
 
 func _physics_process(delta: float) -> void:
-	
 	if not is_multiplayer_authority(): return
 	if chat.get_node("Message").has_focus(): return
 
@@ -50,22 +53,25 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 	
+	# Handle interaction with nearby objects
 	if Input.is_action_just_pressed("ui_e") and is_on_floor():
-		if object != null:
+		if nearby_objects.size() > 0:
+			var object = nearby_objects[0]
 			if object.is_in_group("Item"):
 				object.interact()
 			elif object.is_in_group("Teleport"):
+				transition.animation_player.play("FadeIn")
+				await transition.animation_player.animation_finished
 				object.interact(self)
-	
+			nearby_objects.remove_at(0)  # Remove o objeto interagido da lista
+			if nearby_objects.size() == 0:
+				interact_ui.hide()
+
 	if Input.is_action_just_pressed("ui_tab"):
-		if backpack_anim.is_playing(): return
-		backpack.open()
+		if backpack.animation_player.is_playing(): return
 		chat.visible = !chat.visible
 		isOnMenu = !isOnMenu
-		if isOnMenu:
-			backpack_anim.play("open")
-		else:
-			backpack_anim.play("close")
+		backpack_change_state.emit()
 	
 	# Get the input direction and handle the movement/deceleration
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
@@ -85,9 +91,7 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		if is_on_floor():
 			walking_particles.emitting = true
-
 		anim_player.play('Walking')
-
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 
@@ -112,12 +116,15 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func _on_area_3d_area_entered(area: Area3D) -> void:
-	object = area.get_parent()
-	if object.is_in_group("Interactable"):
+	var obj = area.get_parent()
+	if obj.is_in_group("Interactable"):
+		if not nearby_objects.has(obj):
+			nearby_objects.append(obj)
 		if is_multiplayer_authority():
 			interact_ui.show()
 
 func _on_area_3d_area_exited(area: Area3D) -> void:
-	object = null
-	if is_multiplayer_authority():
+	var obj = area.get_parent()
+	nearby_objects.erase(obj)
+	if is_multiplayer_authority() and nearby_objects.size() == 0:
 		interact_ui.hide()

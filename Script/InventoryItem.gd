@@ -15,7 +15,6 @@ var scene_path: String = "res://Inventory/InventoryItem.tscn"
 @rpc("any_peer","call_local")
 func interact():
 	var item = {
-		"quantity" : 1,
 		"texture" : item_texture,
 		"name" : item_name,
 		"type" : item_type,
