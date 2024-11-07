@@ -7,28 +7,34 @@ extends Control
 @export var item_effect: Label
 @export var details_panel: Panel
 
-var item = null
 var index = 0
+var item = null
 var selected = false
 
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("ui_tab"):
+func _input(event: InputEvent) -> void:
+
+	# OPEN BACKPACK
+	if event.is_action_pressed("ui_tab"):
 		details_panel.hide()
-	if Input.is_action_just_pressed("ui_q") and selected:
+
+	# DROP ITEM
+	if event.is_action_pressed("ui_q") and selected:
 		details_panel.hide()
 		InventoryController.remove_item(index)
 		set_empty()
-	if Input.is_action_just_pressed("ui_1") and selected:
-		InventoryController.move_item_hotbar(item,0)
-	elif Input.is_action_just_pressed("ui_2") and selected:
-		InventoryController.move_item_hotbar(item,1)
-	elif Input.is_action_just_pressed("ui_3") and selected:
-		InventoryController.move_item_hotbar(item,2)
-	elif Input.is_action_just_pressed("ui_4") and selected:
-		InventoryController.move_item_hotbar(item,3)
-	elif Input.is_action_just_pressed("ui_5") and selected:
-		InventoryController.move_item_hotbar(item,4)
 
+	# SEND ITEM TO HOTBAR
+	if selected:
+		if event.is_action_pressed("ui_1"):
+			InventoryController.move_item_hotbar(item, 0)
+		elif event.is_action_pressed("ui_2"):
+			InventoryController.move_item_hotbar(item, 1)
+		elif event.is_action_pressed("ui_3"):
+			InventoryController.move_item_hotbar(item, 2)
+		elif event.is_action_pressed("ui_4"):
+			InventoryController.move_item_hotbar(item, 3)
+		elif event.is_action_pressed("ui_5"):
+			InventoryController.move_item_hotbar(item, 4)
 
 func _on_button_mouse_entered() -> void:
 	if item != null:

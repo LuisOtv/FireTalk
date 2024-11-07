@@ -7,9 +7,6 @@ var item = null
 var index = 0
 var selected = false
 
-func _process(delta: float) -> void:
-	pass
-
 func _on_button_mouse_entered() -> void:
 	if item != null:
 		selected = true

@@ -143,9 +143,9 @@ animation_player = NodePath("AnimationPlayer")
 
 [node name="Inventory" type="Button" parent="."]
 layout_mode = 0
-offset_left = 357.0
+offset_left = 353.0
 offset_top = 278.0
-offset_right = 389.0
+offset_right = 385.0
 offset_bottom = 334.0
 focus_mode = 0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_13sps")
@@ -154,15 +154,15 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_7wygc")
 theme_override_styles/normal = SubResource("StyleBoxFlat_7wygc")
 
 [node name="Sprite2D" type="Sprite2D" parent="Inventory"]
-position = Vector2(19, 28)
+position = Vector2(17.75, 27.75)
 scale = Vector2(0.085, 0.085)
 texture = ExtResource("2_v7qyp")
 
 [node name="Customization" type="Button" parent="."]
 layout_mode = 0
-offset_left = 357.0
+offset_left = 353.0
 offset_top = 338.0
-offset_right = 389.0
+offset_right = 385.0
 offset_bottom = 394.0
 focus_mode = 0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ffou5")
@@ -171,15 +171,15 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_hk7u8")
 theme_override_styles/normal = SubResource("StyleBoxFlat_hk7u8")
 
 [node name="Sprite2D" type="Sprite2D" parent="Customization"]
-position = Vector2(19, 28)
+position = Vector2(17.75, 27.75)
 scale = Vector2(0.085, 0.085)
 texture = ExtResource("3_fvrny")
 
 [node name="Extra" type="Button" parent="."]
 layout_mode = 0
-offset_left = 357.0
+offset_left = 353.0
 offset_top = 398.0
-offset_right = 389.0
+offset_right = 385.0
 offset_bottom = 454.0
 focus_mode = 0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_xo8jv")
@@ -188,15 +188,15 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_hk7u8")
 theme_override_styles/normal = SubResource("StyleBoxFlat_hk7u8")
 
 [node name="Sprite2D" type="Sprite2D" parent="Extra"]
-position = Vector2(19, 28)
+position = Vector2(17.75, 27.75)
 scale = Vector2(0.085, 0.085)
 texture = ExtResource("4_1xx5h")
 
 [node name="Settings" type="Button" parent="."]
 layout_mode = 0
-offset_left = 357.0
+offset_left = 353.0
 offset_top = 705.0
-offset_right = 389.0
+offset_right = 385.0
 offset_bottom = 761.0
 focus_mode = 0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_mks25")
@@ -205,7 +205,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_opa4f")
 theme_override_styles/normal = SubResource("StyleBoxFlat_opa4f")
 
 [node name="Sprite2D" type="Sprite2D" parent="Settings"]
-position = Vector2(19, 28)
+position = Vector2(17.75, 27.75)
 scale = Vector2(0.085, 0.085)
 texture = ExtResource("5_47085")
 

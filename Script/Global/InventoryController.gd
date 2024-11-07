@@ -10,6 +10,7 @@ signal inventory_updated
 signal hotbar_updated
 
 var player_node: Node = null
+
 @onready var inventory_slot_scene = preload("res://Inventory/InventorySlot.tscn")
 @onready var hotbar_slot_scene = preload("res://Inventory/HotbarSlot.tscn")
 
@@ -23,7 +24,6 @@ func add_item(item):
 		if inventory[i] == null:
 			inventory[i] = item
 			inventory_updated.emit()
-			print(inventory)
 			return true
 	return false
 
@@ -41,7 +41,6 @@ func move_item_hotbar(item, new_slot: int) -> bool:
 	if hotbar[new_slot] == item:
 		hotbar[new_slot] = null # Remove o item, desequipando-o
 		hotbar_updated.emit()
-		print("Item desequipado do slot:", new_slot)
 		return true
 
 	# Primeiro, remove o item da posição anterior na hotbar, se ele estiver presente
@@ -53,31 +52,12 @@ func move_item_hotbar(item, new_slot: int) -> bool:
 	# Verifica se o item já está em qualquer outro slot da hotbar para evitar duplicação
 	for i in range(hotbar.size()):
 		if hotbar[i] == item:
-			return false # Não adiciona se o item já estiver presente
+			return false
 
 	# Adiciona o item na nova posição da hotbar
 	if hotbar[new_slot] == null or hotbar[new_slot] != item:
 		hotbar[new_slot] = item
 		hotbar_updated.emit()
-		print(hotbar)
 		return true
 	
 	return false
-
-func unassign_item_hotbar(item_type,item_effect):
-	for i in range(hotbar.size()):
-		if hotbar[i] != null and hotbar[i]["type"] == item_type and hotbar[i]["effect"] == item_effect:
-			hotbar[i] = null
-			inventory_updated.emit()
-			return true
-	return false
-	
-func assign_item_hotbar(item_type,item_effect):
-	for i in range(hotbar.size()):
-		if hotbar[i] != null and hotbar[i]["type"] == item_type and hotbar[i]["effect"] == item_effect:
-			hotbar[i] = null
-			inventory_updated.emit()
-			return true
-	return false
-	
-	

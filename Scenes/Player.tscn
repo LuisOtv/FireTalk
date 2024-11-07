@@ -5,9 +5,10 @@
 [ext_resource type="Script" path="res://Script/CameraController.gd" id="2_yl75c"]
 [ext_resource type="Texture2D" uid="uid://rmkjisd4ykgu" path="res://Textures/Face.png" id="5_0u86q"]
 [ext_resource type="PackedScene" uid="uid://cdrvt7ddobsyt" path="res://Inventory/InventoryUI.tscn" id="5_1ny8p"]
+[ext_resource type="PackedScene" uid="uid://6mjawhjpnsiu" path="res://Scenes/InteractUI.tscn" id="5_d3n6q"]
 [ext_resource type="PackedScene" uid="uid://b1rtw3qpp6wvu" path="res://Inventory/HotbarUI.tscn" id="6_twa0j"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_btu2e"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_g54al"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_asbmo"]
 
@@ -88,9 +89,6 @@ shadow_size = 0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ympk5"]
 height = 1.61998
-
-[sub_resource type="LabelSettings" id="LabelSettings_a70g4"]
-font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Curve" id="Curve_isu1j"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.967213, 0), 0.0, 0.0, 0, 0]
@@ -223,9 +221,6 @@ GRAVITY_MULTIPLIER = 10.0
 SPEED = 3.0
 JUMP_VELOCITY = 10.0
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.019061)
-
 [node name="PivotHorizontal" type="Node3D" parent="." node_paths=PackedStringArray("camera", "spring", "camera_look", "camera_normal", "camera_menu", "player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 script = ExtResource("2_yl75c")
@@ -241,9 +236,8 @@ player = NodePath("..")
 [node name="SpringArm3D" type="SpringArm3D" parent="PivotHorizontal/PivotVertical"]
 transform = Transform3D(0.999123, -0.0285308, -0.0306392, 0.0417106, 0.741369, 0.6698, 0.00360498, -0.670491, 0.741909, 0, 0, 0)
 collision_mask = 4
-shape = SubResource("SphereShape3D_btu2e")
+shape = SubResource("SphereShape3D_g54al")
 spring_length = 4.0
-margin = 0.2
 
 [node name="NormalPos" type="Marker3D" parent="PivotHorizontal/PivotVertical/SpringArm3D"]
 
@@ -359,7 +353,7 @@ transform = Transform3D(-0.35, 0, 3.0598e-08, 0, 0.35, 0, -3.0598e-08, 0, -0.35,
 texture = ExtResource("5_0u86q")
 
 [node name="MenuPos" type="Marker3D" parent="Armature/Skeleton3D/Body"]
-transform = Transform3D(2.34923, 0, 0.85505, 0, 2.5, 0, -0.85505, 0, 2.34923, -0.71, 1.76858, 3.04)
+transform = Transform3D(2.12932, 0, 1.30996, 0, 2.5, 0, -1.30996, 0, 2.12932, 0.15, 1.769, 3.04)
 
 [node name="Nametag" type="Sprite3D" parent="."]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.709445, 0)
@@ -397,48 +391,13 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="InteractUI" type="CanvasLayer" parent="Interface"]
+visible = false
 
-[node name="InteractUI" type="Control" parent="Interface/InteractUI"]
-layout_mode = 3
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -40.0
-grow_horizontal = 0
-grow_vertical = 0
-
-[node name="ColorRect" type="ColorRect" parent="Interface/InteractUI/InteractUI"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -40.0
-grow_horizontal = 0
-grow_vertical = 0
-
-[node name="Label" type="Label" parent="Interface/InteractUI/InteractUI/ColorRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "E"
-label_settings = SubResource("LabelSettings_a70g4")
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="InteractUI" parent="Interface/InteractUI" instance=ExtResource("5_d3n6q")]
 
 [node name="BackpackUI" type="CanvasLayer" parent="Interface"]
 
 [node name="BackpackUI" parent="Interface/BackpackUI" instance=ExtResource("5_1ny8p")]
-offset_right = -1268.0
-offset_bottom = -432.0
 
 [node name="HotbarUI" type="CanvasLayer" parent="Interface"]
 
@@ -466,6 +425,13 @@ replication_config = SubResource("SceneReplicationConfig_swwv1")
 libraries = {
 "": SubResource("AnimationLibrary_jhllr")
 }
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 3)
+
+[node name="Label" type="Label" parent="."]
+offset_right = 323.0
+offset_bottom = 121.0
 
 [connection signal="backpack_change_state" from="." to="Interface/BackpackUI/BackpackUI" method="_on_player_backpack_change_state"]
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

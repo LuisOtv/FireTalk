@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bik7myls0qu8s"
+path="res://.godot/imported/Naked_Snake.obj-c24d53e31d8550fa87b62db4f79abd52.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Naked_Snake.obj-c24d53e31d8550fa87b62db4f79abd52.mesh"]
+
+source_file="res://SNAKE/Naked_Snake.obj"
+dest_files=["res://.godot/imported/Naked_Snake.obj-c24d53e31d8550fa87b62db4f79abd52.mesh", "res://.godot/imported/Naked_Snake.obj-c24d53e31d8550fa87b62db4f79abd52.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
