@@ -1,5 +1,7 @@
 extends Node3D
 
+signal update_text
+
 @export var camera_pos: Marker3D
 @export var npc_ui: CanvasLayer
 
@@ -11,3 +13,4 @@ func _ready() -> void:
 
 func interact():
 	npc_ui.visible = !npc_ui.visible
+	update_text.emit()

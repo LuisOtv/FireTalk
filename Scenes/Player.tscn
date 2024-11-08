@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://crfget6py65uj"]
+[gd_scene load_steps=24 format=4 uid="uid://crfget6py65uj"]
 
 [ext_resource type="Script" path="res://Script/Player.gd" id="1_knl85"]
 [ext_resource type="FontFile" uid="uid://cmqgoydw4vvwu" path="res://Fonts/VarelaRound-Regular.ttf" id="2_8q8jm"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cdrvt7ddobsyt" path="res://Inventory/InventoryUI.tscn" id="5_1ny8p"]
 [ext_resource type="PackedScene" uid="uid://6mjawhjpnsiu" path="res://Scenes/InteractUI.tscn" id="5_d3n6q"]
 [ext_resource type="PackedScene" uid="uid://b1rtw3qpp6wvu" path="res://Inventory/HotbarUI.tscn" id="6_twa0j"]
+[ext_resource type="PackedScene" uid="uid://bn6xxfv0nhett" path="res://Scenes/MiningMinigame.tscn" id="7_cnay7"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_g54al"]
 
@@ -399,6 +400,10 @@ visible = false
 
 [node name="BackpackUI" parent="Interface/BackpackUI" instance=ExtResource("5_1ny8p")]
 
+[node name="MiningMinigameUI" type="CanvasLayer" parent="Interface"]
+
+[node name="MiningMinigame" parent="Interface/MiningMinigameUI" instance=ExtResource("7_cnay7")]
+
 [node name="HotbarUI" type="CanvasLayer" parent="Interface"]
 
 [node name="InventoryHotbar" parent="Interface/HotbarUI" instance=ExtResource("6_twa0j")]
@@ -428,10 +433,6 @@ libraries = {
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 3)
-
-[node name="Label" type="Label" parent="."]
-offset_right = 323.0
-offset_bottom = 121.0
 
 [connection signal="backpack_change_state" from="." to="Interface/BackpackUI/BackpackUI" method="_on_player_backpack_change_state"]
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

@@ -1,51 +1,104 @@
-[gd_scene load_steps=4 format=3 uid="uid://bn6xxfv0nhett"]
+[gd_scene load_steps=7 format=3 uid="uid://bn6xxfv0nhett"]
 
-[ext_resource type="Texture2D" uid="uid://dafffscv6y0g7" path="res://Textures/Pickaxe.png" id="1_uxykr"]
-[ext_resource type="Script" path="res://Script/Pickaxe.gd" id="2_0k1pg"]
+[ext_resource type="Script" path="res://Script/MiningMinigame.gd" id="1_53bpt"]
+[ext_resource type="Texture2D" uid="uid://c0th8c2joygu1" path="res://Textures/MiningMinigame.png" id="1_fdqa5"]
+[ext_resource type="Texture2D" uid="uid://dfuywy4gida5t" path="res://Textures/Arrow.png" id="3_q5uba"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mse8e"]
+[sub_resource type="Animation" id="Animation_plxbq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arrow:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-220, -112)]
+}
 
-[node name="MiningMinigame" type="Node2D"]
-script = ExtResource("2_0k1pg")
+[sub_resource type="Animation" id="Animation_ms7lw"]
+resource_name = "go"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arrow:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-220, -112), Vector2(220, -240)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"miss"
+}]
+}
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(576, 324)
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lm01s"]
+_data = {
+"RESET": SubResource("Animation_plxbq"),
+"go": SubResource("Animation_ms7lw")
+}
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 380.0
-offset_top = 598.0
-offset_right = 769.0
-offset_bottom = 638.0
+[node name="MiningMinigame" type="Control" node_paths=PackedStringArray("arrow", "bar", "hit_point", "initial_point", "animation_player")]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_mse8e")
+grow_vertical = 0
+script = ExtResource("1_53bpt")
+arrow = NodePath("Middle/Arrow")
+bar = NodePath("Middle/Bar")
+hit_point = NodePath("Middle/20Pixels")
+initial_point = NodePath("Middle/InitialPosition")
+animation_player = NodePath("Middle/AnimationPlayer")
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+[node name="Middle" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
 
-[node name="Panel" type="Panel" parent="PanelContainer/MarginContainer"]
-layout_mode = 2
+[node name="Bar" type="Sprite2D" parent="Middle"]
+position = Vector2(-1, -262)
+texture = ExtResource("1_fdqa5")
 
-[node name="Left" type="Marker2D" parent="PanelContainer"]
-position = Vector2(0, 19)
+[node name="Arrow" type="Sprite2D" parent="Middle"]
+position = Vector2(-220, -112)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("3_q5uba")
 
-[node name="Right" type="Marker2D" parent="PanelContainer"]
-position = Vector2(389, 19)
+[node name="20Pixels" type="Marker2D" parent="Middle"]
+position = Vector2(198, -224)
 
-[node name="Middle" type="Marker2D" parent="PanelContainer"]
-position = Vector2(192, 19)
+[node name="InitialPosition" type="Marker2D" parent="Middle"]
+position = Vector2(-220, -112)
+scale = Vector2(0.08, 0.08)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(570, 616)
-scale = Vector2(0.219424, 0.210425)
-texture = ExtResource("1_uxykr")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Middle"]
+libraries = {
+"": SubResource("AnimationLibrary_lm01s")
+}

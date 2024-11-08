@@ -13,6 +13,7 @@ config_version=5
 config/name="MultiplayerGame"
 run/main_scene="res://Scenes/Main.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
+boot_splash/image="res://Textures/CaytieDev.png"
 config/icon="res://icon.svg"
 
 [autoload]
@@ -119,6 +120,10 @@ ui_q={
 [navigation]
 
 3d/size/resizable=true
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
 
 [shader_globals]
 

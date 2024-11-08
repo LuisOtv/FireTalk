@@ -6,7 +6,6 @@ extends Node3D
 @export var camera_normal : Marker3D
 @export var camera_menu : Marker3D
 @export var player : CharacterBody3D
-@onready var label: Label = $"../Label"
 
 var rotation_speed := 0.00001
 var max_vertical_angle := deg_to_rad(80)  
@@ -34,8 +33,6 @@ func _input(event):
 func _process(delta: float) -> void:
 	
 	$PivotVertical.rotation.x = clamp($PivotVertical.rotation.x,-0.7,0.5)
-	
-	label.text = str(spring.spring_length)
 	
 	if is_rotating:
 		var mouse_delta = Input.get_last_mouse_velocity()  
